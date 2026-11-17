@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@10.12.4",
-  "engines": { "node": ">=24 <25", "pnpm": ">=10 <11" },
+  "engines": {
+    "node": ">=24 <25",
+    "pnpm": ">=10 <11"
+  },
   "scripts": {
     "setup": "node scripts/setup-git.mjs",
     "dev:web": "node --env-file-if-exists=.env apps/web/node_modules/next/dist/bin/next dev apps/web",
@@ -16,12 +19,19 @@
     "test:conventions": "node --test scripts/commitlint.test.mjs",
     "test:api": "node scripts/go.mjs test ./...",
     "vet:api": "node scripts/go.mjs vet ./...",
-    "check": "pnpm test:conventions && pnpm lint && pnpm typecheck && pnpm test:api && pnpm vet:api"
+    "check:contracts": "node scripts/check-contracts.mjs",
+    "generate:contracts": "node scripts/check-contracts.mjs --write",
+    "check:rules": "node scripts/check-rules.mjs",
+    "test:rules": "node --test scripts/check-rules.test.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "check": "pnpm test:conventions && pnpm check:rules && pnpm test:rules && pnpm check:contracts && pnpm lint && pnpm typecheck && pnpm test:api && pnpm vet:api"
   },
   "devDependencies": {
     "@commitlint/cli": "21.2.4",
     "@commitlint/config-conventional": "21.2.4",
     "@commitlint/lint": "21.2.4",
-    "@commitlint/load": "21.2.4"
+    "@commitlint/load": "21.2.4",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
   }
 }

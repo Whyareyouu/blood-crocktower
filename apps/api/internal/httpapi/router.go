@@ -5,33 +5,26 @@ import (
 	"encoding/json"
 	"net/http"
 	"time"
+
+	"blood/apps/api/internal/contracts"
 )
-
-type Health struct {
-	Status string `json:"status"`
-}
-
-type Status struct {
-	Service string `json:"service"`
-	Stage   string `json:"stage"`
-}
 
 func New(checkReady func(context.Context) error) http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /health/live", func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, http.StatusOK, Health{Status: "ok"})
+		writeJSON(w, http.StatusOK, contracts.Health{Status: "ok"})
 	})
 	mux.HandleFunc("GET /health/ready", func(w http.ResponseWriter, r *http.Request) {
 		ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)
 		defer cancel()
 		if err := checkReady(ctx); err != nil {
-			writeJSON(w, http.StatusServiceUnavailable, Health{Status: "not_ready"})
+			writeJSON(w, http.StatusServiceUnavailable, contracts.Health{Status: "not_ready"})
 			return
 		}
-		writeJSON(w, http.StatusOK, Health{Status: "ok"})
+		writeJSON(w, http.StatusOK, contracts.Health{Status: "ok"})
 	})
 	mux.HandleFunc("GET /api/v1/status", func(w http.ResponseWriter, _ *http.Request) {
-		writeJSON(w, http.StatusOK, Status{Service: "blood-api", Stage: "bootstrap"})
+		writeJSON(w, http.StatusOK, contracts.Status{Service: "blood-api", Stage: "bootstrap"})
 	})
 	return mux
 }

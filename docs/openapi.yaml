@@ -1,64 +1,1023 @@
-openapi: 3.1.0
-info:
-  title: Кровь на часовой башне — API
-  version: 0.0.0
-  description: Реализованные диагностические endpoints каркаса. Игровое API добавляется по roadmap.
-servers:
-  - url: http://localhost:8080
-paths:
-  /health/live:
-    get:
-      operationId: getLiveness
-      summary: Проверить работоспособность процесса без обращения к БД
-      responses:
-        '200':
-          description: Процесс работает
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Health'
-  /health/ready:
-    get:
-      operationId: getReadiness
-      summary: Проверить PostgreSQL и применённую версию схемы через GORM
-      responses:
-        '200':
-          description: База данных и схема готовы
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Health'
-        '503':
-          description: База данных или миграции недоступны; внутренние сведения не выдаются
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Health'
-  /api/v1/status:
-    get:
-      operationId: getStatus
-      summary: Получить этап реализации сервиса
-      responses:
-        '200':
-          description: Информация о каркасе
-          content:
-            application/json:
-              schema:
-                type: object
-                additionalProperties: false
-                required: [service, stage]
-                properties:
-                  service:
-                    const: blood-api
-                  stage:
-                    const: bootstrap
-components:
-  schemas:
-    Health:
-      type: object
-      additionalProperties: false
-      required: [status]
-      properties:
-        status:
-          type: string
-          enum: [ok, not_ready]
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Кровь на часовой башне — REST API",
+    "version": "1.0.0-draft",
+    "description": "Реализованы только 3 диагностических GET. Остальные операции — утверждаемый контракт следующих этапов, а не доступные handlers. Все DTO задаются protocol.schema.json. До входа CSRF-токен выдаётся GET /auth/csrf; после входа токен связан с сессией."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "paths": {
+    "/health/live": {
+      "get": {
+        "operationId": "getLiveness",
+        "summary": "Проверить процесс",
+        "x-implementation-status": "implemented",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Проверить процесс",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/Health"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "operationId": "getReadiness",
+        "summary": "Проверить PostgreSQL и версию схемы через GORM",
+        "x-implementation-status": "implemented",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Проверить PostgreSQL и версию схемы через GORM",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/Health"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "БД или миграция недоступны; внутренние сведения не выдаются",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/Health"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/status": {
+      "get": {
+        "operationId": "getStatus",
+        "summary": "Получить этап реализации",
+        "x-implementation-status": "implemented",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Получить этап реализации",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/Status"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "operationId": "register",
+        "summary": "Создать аккаунт и сессию",
+        "x-implementation-status": "planned",
+        "security": [],
+        "responses": {
+          "201": {
+            "description": "Создать аккаунт и сессию",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/Session"
+                }
+              }
+            },
+            "headers": {
+              "Set-Cookie": {
+                "description": "Предварительная cookie CSRF либо новая HttpOnly cookie сессии. Secure при HTTPS; SameSite=Lax.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "./contracts/protocol.schema.json#/$defs/Credentials"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 32,
+              "maxLength": 256
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "operationId": "login",
+        "summary": "Войти и заменить идентификатор сессии",
+        "x-implementation-status": "planned",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Войти и заменить идентификатор сессии",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/Session"
+                }
+              }
+            },
+            "headers": {
+              "Set-Cookie": {
+                "description": "Предварительная cookie CSRF либо новая HttpOnly cookie сессии. Secure при HTTPS; SameSite=Lax.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "./contracts/protocol.schema.json#/$defs/Credentials"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 32,
+              "maxLength": 256
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/session": {
+      "get": {
+        "operationId": "getSession",
+        "summary": "Восстановить текущую сессию",
+        "x-implementation-status": "planned",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Восстановить текущую сессию",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/Session"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "operationId": "logout",
+        "summary": "Завершить сессию",
+        "x-implementation-status": "planned",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Завершить сессию"
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 32,
+              "maxLength": 256
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/rooms": {
+      "get": {
+        "operationId": "listRooms",
+        "summary": "Получить список публичных комнат",
+        "x-implementation-status": "planned",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Получить список публичных комнат",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/RoomList"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createRoom",
+        "summary": "Создать публичную комнату без пароля",
+        "x-implementation-status": "planned",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Создать публичную комнату без пароля",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/RoomView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "./contracts/protocol.schema.json#/$defs/CreateRoom"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 32,
+              "maxLength": 256
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/rooms/{roomId}": {
+      "get": {
+        "operationId": "getRoom",
+        "summary": "Получить разрешённое представление комнаты",
+        "x-implementation-status": "planned",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Получить разрешённое представление комнаты",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/RoomView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "roomId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9_-]+$"
+          }
+        }
+      ]
+    },
+    "/api/v1/rooms/{roomId}/members/me": {
+      "put": {
+        "operationId": "joinRoom",
+        "summary": "Войти в ожидающую комнату",
+        "x-implementation-status": "planned",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Войти в ожидающую комнату",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/RoomView"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 32,
+              "maxLength": 256
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "leaveRoom",
+        "summary": "Выйти из комнаты",
+        "x-implementation-status": "planned",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Выйти из комнаты"
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 32,
+              "maxLength": 256
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "roomId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9_-]+$"
+          }
+        }
+      ]
+    },
+    "/api/v1/rooms/{roomId}/messages": {
+      "get": {
+        "operationId": "listRoomMessages",
+        "summary": "Получить общий чат комнаты",
+        "x-implementation-status": "planned",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Получить общий чат комнаты",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/MessageList"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 256
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          }
+        ]
+      },
+      "post": {
+        "operationId": "sendRoomMessage",
+        "summary": "Отправить сообщение общего чата",
+        "x-implementation-status": "planned",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Отправить сообщение общего чата",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/Message"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "./contracts/protocol.schema.json#/$defs/SendMessage"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 32,
+              "maxLength": 256
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "roomId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9_-]+$"
+          }
+        }
+      ]
+    },
+    "/api/v1/rooms/{roomId}/conversations": {
+      "get": {
+        "operationId": "listConversations",
+        "summary": "Получить только собственные приватные беседы",
+        "x-implementation-status": "planned",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Получить только собственные приватные беседы",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/ConversationList"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createConversation",
+        "summary": "Открыть приватную беседу с участником",
+        "x-implementation-status": "planned",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Открыть приватную беседу с участником",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/Conversation"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "./contracts/protocol.schema.json#/$defs/CreateConversation"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 32,
+              "maxLength": 256
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "roomId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9_-]+$"
+          }
+        }
+      ]
+    },
+    "/api/v1/conversations/{conversationId}/messages": {
+      "get": {
+        "operationId": "listPrivateMessages",
+        "summary": "Получить сообщения только своей беседы",
+        "x-implementation-status": "planned",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Получить сообщения только своей беседы",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/MessageList"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 256
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          }
+        ]
+      },
+      "post": {
+        "operationId": "sendPrivateMessage",
+        "summary": "Отправить приватное сообщение",
+        "x-implementation-status": "planned",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Отправить приватное сообщение",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/Message"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "./contracts/protocol.schema.json#/$defs/SendMessage"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 32,
+              "maxLength": 256
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "conversationId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "^[A-Za-z0-9_-]+$"
+          }
+        }
+      ]
+    },
+    "/api/v1/ws": {
+      "get": {
+        "operationId": "connectWebSocket",
+        "summary": "Установить WebSocket v1; cookie, Origin и подпротокол blood.v1 обязательны",
+        "x-implementation-status": "planned",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "101": {
+            "description": "Переключение на WebSocket; см. contracts/README.md"
+          },
+          "401": {
+            "description": "Нет сессии",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Origin не разрешён",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Версия подпротокола не поддерживается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Sec-WebSocket-Protocol",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "blood.v1"
+              ]
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Точное совпадение с разрешённым origin проверяется до upgrade."
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/csrf": {
+      "get": {
+        "operationId": "getCSRFToken",
+        "summary": "Выдать предварительный CSRF-токен с привязкой к cookie",
+        "x-implementation-status": "planned",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Выдать предварительный CSRF-токен с привязкой к cookie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/CSRFToken"
+                }
+              }
+            },
+            "headers": {
+              "Set-Cookie": {
+                "description": "Предварительная cookie CSRF либо новая HttpOnly cookie сессии. Secure при HTTPS; SameSite=Lax.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "sessionCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "blood_session",
+        "description": "HttpOnly; Secure в HTTPS; SameSite=Lax; пароль и token не передаются через query или WebSocket."
+      }
+    }
+  }
+}

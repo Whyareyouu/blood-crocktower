@@ -1,0 +1,3996 @@
+{
+  "schemaVersion": 1,
+  "rulesetVersion": "base-2026-11-17",
+  "verifiedAt": "2026-11-17",
+  "scope": "Базовая коробка: три сценария, 15 Странников и 12 Сказочников; экспериментальные роли исключены.",
+  "localization": "Собственные краткие переводы и пересказы проекта; nameRu — рабочие названия, не утверждение об официальной локализации. Для обмена используются устойчивые id и nameEn.",
+  "upstream": {
+    "repository": "https://github.com/ThePandemoniumInstitute/botc-release",
+    "commit": "f10cd02e3401af227ce406287eaae7bb99a06a42",
+    "attribution": "Blood on the Clocktower © Steven Medway / The Pandemonium Institute. Официальные ресурсы для создателей инструментов; применяются условия Community Created Content Policy.",
+    "policyUrl": "https://bloodontheclocktower.com/pages/community-created-content-policy",
+    "files": [
+      {
+        "path": "resources/data/roles.json",
+        "url": "https://raw.githubusercontent.com/ThePandemoniumInstitute/botc-release/f10cd02e3401af227ce406287eaae7bb99a06a42/resources/data/roles.json",
+        "sha256": "6c659354dee75cf3afdeaf6cbc750b274a87d1099cc5f68651a2114881eb85ca"
+      },
+      {
+        "path": "resources/data/nightsheet.json",
+        "url": "https://raw.githubusercontent.com/ThePandemoniumInstitute/botc-release/f10cd02e3401af227ce406287eaae7bb99a06a42/resources/data/nightsheet.json",
+        "sha256": "99a2815bb31bcec3e107bf7f1c2fb305e301d317981d855704d3d954ec4c3f75"
+      },
+      {
+        "path": "resources/data/jinxes.json",
+        "url": "https://raw.githubusercontent.com/ThePandemoniumInstitute/botc-release/f10cd02e3401af227ce406287eaae7bb99a06a42/resources/data/jinxes.json",
+        "sha256": "5d3d8d0ac194fb1ea44af79b74f9e4bdc09712aef2123c3a3ef2b6c43efa7df7"
+      }
+    ]
+  },
+  "nightOrder": {
+    "firstNight": [
+      "dusk",
+      "angel",
+      "buddhist",
+      "toymaker",
+      "apprentice",
+      "barista",
+      "bureaucrat",
+      "thief",
+      "philosopher",
+      "minioninfo",
+      "lunatic",
+      "demoninfo",
+      "sailor",
+      "poisoner",
+      "courtier",
+      "snakecharmer",
+      "godfather",
+      "devilsadvocate",
+      "eviltwin",
+      "witch",
+      "cerenovus",
+      "pukka",
+      "washerwoman",
+      "librarian",
+      "investigator",
+      "chef",
+      "empath",
+      "fortuneteller",
+      "butler",
+      "grandmother",
+      "clockmaker",
+      "dreamer",
+      "seamstress",
+      "spy",
+      "chambermaid",
+      "mathematician",
+      "dawn"
+    ],
+    "otherNight": [
+      "dusk",
+      "duchess",
+      "toymaker",
+      "barista",
+      "bureaucrat",
+      "thief",
+      "harlot",
+      "bonecollector",
+      "philosopher",
+      "sailor",
+      "poisoner",
+      "courtier",
+      "innkeeper",
+      "gambler",
+      "snakecharmer",
+      "monk",
+      "devilsadvocate",
+      "witch",
+      "cerenovus",
+      "pithag",
+      "scarletwoman",
+      "lunatic",
+      "exorcist",
+      "imp",
+      "zombuul",
+      "pukka",
+      "shabaloth",
+      "po",
+      "fanggu",
+      "nodashii",
+      "vortox",
+      "vigormortis",
+      "assassin",
+      "godfather",
+      "gossip",
+      "barber",
+      "sweetheart",
+      "sage",
+      "professor",
+      "tinker",
+      "moonchild",
+      "grandmother",
+      "ravenkeeper",
+      "empath",
+      "fortuneteller",
+      "undertaker",
+      "dreamer",
+      "flowergirl",
+      "towncrier",
+      "oracle",
+      "seamstress",
+      "juggler",
+      "butler",
+      "spy",
+      "chambermaid",
+      "mathematician",
+      "dawn"
+    ]
+  },
+  "roles": [
+    {
+      "id": "chef",
+      "nameEn": "Chef",
+      "nameRu": "Повар",
+      "edition": "tb",
+      "team": "townsfolk",
+      "abilityRu": "В начале игры узнаёт число соседствующих пар злых игроков.",
+      "setup": false,
+      "night": {
+        "firstNight": 26,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "В цепочке из трёх злых игроков учитываются две пары; круг замыкается."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Chef",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-chef",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "empath",
+      "nameEn": "Empath",
+      "nameRu": "Эмпат",
+      "edition": "tb",
+      "team": "townsfolk",
+      "abilityRu": "Каждую ночь узнаёт число злых среди двух ближайших живых соседей.",
+      "setup": false,
+      "night": {
+        "firstNight": 27,
+        "otherNight": 44
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Мёртвые соседи пропускаются; информация определяется в момент действия."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Empath",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-empath",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "fortuneteller",
+      "nameEn": "Fortune Teller",
+      "nameRu": "Гадалка",
+      "edition": "tb",
+      "team": "townsfolk",
+      "abilityRu": "Каждую ночь выбирает двух игроков и узнаёт, есть ли среди них Демон. Один добрый игрок определяется для неё как Демон.",
+      "setup": false,
+      "night": {
+        "firstNight": 28,
+        "otherNight": 45
+      },
+      "reminders": [
+        {
+          "key": "Red Herring",
+          "labelRu": "Ложная цель"
+        }
+      ],
+      "exceptionsRu": [
+        "Ложная цель назначается при подготовке; смерть этой цели не прекращает её регистрацию."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Fortune_Teller",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-fortuneteller",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "investigator",
+      "nameEn": "Investigator",
+      "nameRu": "Сыщик",
+      "edition": "tb",
+      "team": "townsfolk",
+      "abilityRu": "В начале игры узнаёт, что один из двух игроков имеет названную роль Приспешника.",
+      "setup": false,
+      "night": {
+        "firstNight": 25,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "Minion",
+          "labelRu": "Приспешник"
+        },
+        {
+          "key": "Wrong",
+          "labelRu": "Неверно"
+        }
+      ],
+      "exceptionsRu": [
+        "Проверяется регистрация, а не только фактический тип роли; Отшельник может дать ложное совпадение."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Investigator",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-investigator",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "librarian",
+      "nameEn": "Librarian",
+      "nameRu": "Библиотекарь",
+      "edition": "tb",
+      "team": "townsfolk",
+      "abilityRu": "В начале игры узнаёт, что один из двух игроков имеет названную роль Изгоя, либо узнаёт, что Изгоев нет.",
+      "setup": false,
+      "night": {
+        "firstNight": 24,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "Outsider",
+          "labelRu": "Изгой"
+        },
+        {
+          "key": "Wrong",
+          "labelRu": "Неверно"
+        }
+      ],
+      "exceptionsRu": [
+        "Ноль означает отсутствие Изгоев в партии; учитывается возможная ложная регистрация."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Librarian",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-librarian",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "mayor",
+      "nameEn": "Mayor",
+      "nameRu": "Мэр",
+      "edition": "tb",
+      "team": "townsfolk",
+      "abilityRu": "Если живы только три игрока и казни не было, его команда побеждает. При его ночной смерти вместо него может умереть другой.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Рассказчик решает о перенаправлении; казнь мёртвого всё равно считается казнью и мешает победе Мэра."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Mayor",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-mayor",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "monk",
+      "nameEn": "Monk",
+      "nameRu": "Монах",
+      "edition": "tb",
+      "team": "townsfolk",
+      "abilityRu": "Каждую ночь, кроме первой, выбирает другого игрока: этой ночью тот защищён от Демона.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 16
+      },
+      "reminders": [
+        {
+          "key": "Safe",
+          "labelRu": "Защищён"
+        }
+      ],
+      "exceptionsRu": [
+        "Защита распространяется на способность Демона, а не на все причины смерти; себя выбрать нельзя."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Monk",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-monk",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "ravenkeeper",
+      "nameEn": "Ravenkeeper",
+      "nameRu": "Смотритель воронов",
+      "edition": "tb",
+      "team": "townsfolk",
+      "abilityRu": "Если умирает ночью, просыпается, выбирает игрока и узнаёт его роль.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 43
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Причиной может быть любая ночная смерть, а не только Демон; способность разрешается после собственной смерти."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Ravenkeeper",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-ravenkeeper",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "slayer",
+      "nameEn": "Slayer",
+      "nameRu": "Истребитель",
+      "edition": "tb",
+      "team": "townsfolk",
+      "abilityRu": "Один раз за игру днём публично выбирает игрока; если выбран Демон, тот умирает.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "No Ability",
+          "labelRu": "Способность потрачена"
+        }
+      ],
+      "exceptionsRu": [
+        "Любой может заявить такое действие для блефа; неудача не подтверждает настоящую роль заявителя."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Slayer",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-slayer",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "soldier",
+      "nameEn": "Soldier",
+      "nameRu": "Солдат",
+      "edition": "tb",
+      "team": "townsfolk",
+      "abilityRu": "Защищён от Демона.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Смерть от казни и способностей других типов не предотвращается."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Soldier",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-soldier",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "undertaker",
+      "nameEn": "Undertaker",
+      "nameRu": "Гробовщик",
+      "edition": "tb",
+      "team": "townsfolk",
+      "abilityRu": "Каждую ночь, кроме первой, узнаёт роль игрока, умершего сегодня от казни.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 46
+      },
+      "reminders": [
+        {
+          "key": "Died Today",
+          "labelRu": "Умер сегодня"
+        }
+      ],
+      "exceptionsRu": [
+        "Казнь без смерти не даёт роли; изгнание не является казнью."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Undertaker",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-undertaker",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "virgin",
+      "nameEn": "Virgin",
+      "nameRu": "Девственница",
+      "edition": "tb",
+      "team": "townsfolk",
+      "abilityRu": "При первой номинации против неё, если номинатор Горожанин, он немедленно казнён.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "No Ability",
+          "labelRu": "Способность потрачена"
+        }
+      ],
+      "exceptionsRu": [
+        "Первая номинация расходует способность и при не-Горожанине; немедленная казнь завершает обычные номинации дня."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Virgin",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-virgin",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "washerwoman",
+      "nameEn": "Washerwoman",
+      "nameRu": "Прачка",
+      "edition": "tb",
+      "team": "townsfolk",
+      "abilityRu": "В начале игры узнаёт, что один из двух игроков имеет названную роль Горожанина.",
+      "setup": false,
+      "night": {
+        "firstNight": 23,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "Townsfolk",
+          "labelRu": "Горожанин"
+        },
+        {
+          "key": "Wrong",
+          "labelRu": "Неверно"
+        }
+      ],
+      "exceptionsRu": [
+        "Второй показанный игрок может иметь любой тип роли; Шпион может регистрироваться Горожанином."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Washerwoman",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-washerwoman",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "butler",
+      "nameEn": "Butler",
+      "nameRu": "Дворецкий",
+      "edition": "tb",
+      "team": "outsider",
+      "abilityRu": "Каждую ночь выбирает другого игрока; завтра может голосовать только когда выбранный тоже голосует.",
+      "setup": false,
+      "night": {
+        "firstNight": 29,
+        "otherNight": 53
+      },
+      "reminders": [
+        {
+          "key": "Master",
+          "labelRu": "Хозяин"
+        }
+      ],
+      "exceptionsRu": [
+        "Проверка идёт во время подсчёта голосов по кругу; роль не раскрывается публичной ошибкой о запрете голосовать."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Butler",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-butler",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "drunk",
+      "nameEn": "Drunk",
+      "nameRu": "Пьяница",
+      "edition": "tb",
+      "team": "outsider",
+      "abilityRu": "Не знает, что является Пьяницей, и считает себя одной из ролей Горожан.",
+      "setup": true,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Настоящая роль Изгой; жетон и показанная способность Горожанина не дают её реального действия."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Drunk",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-drunk",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "recluse",
+      "nameEn": "Recluse",
+      "nameRu": "Отшельник",
+      "edition": "tb",
+      "team": "outsider",
+      "abilityRu": "Может определяться злым, Приспешником или Демоном, даже будучи мёртвым.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Ложная регистрация не меняет настоящую сторону или роль и определяется отдельно для проверки."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Recluse",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-recluse",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "saint",
+      "nameEn": "Saint",
+      "nameRu": "Святой",
+      "edition": "tb",
+      "team": "outsider",
+      "abilityRu": "Если умирает от казни, его команда проигрывает.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Казнь без смерти и смерть от иной причины не вызывают поражение."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Saint",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-saint",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "baron",
+      "nameEn": "Baron",
+      "nameRu": "Барон",
+      "edition": "tb",
+      "team": "minion",
+      "abilityRu": "При подготовке в партии на двух Изгоев больше.",
+      "setup": true,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Дополнительные Изгои заменяют Горожан; смерть или отравление Барона не отменяют подготовку."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Baron",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-baron",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "poisoner",
+      "nameEn": "Poisoner",
+      "nameRu": "Отравитель",
+      "edition": "tb",
+      "team": "minion",
+      "abilityRu": "Каждую ночь выбирает игрока: тот отравлен этой ночью и следующим днём.",
+      "setup": false,
+      "night": {
+        "firstNight": 14,
+        "otherNight": 11
+      },
+      "reminders": [
+        {
+          "key": "Poisoned",
+          "labelRu": "Отравлен"
+        }
+      ],
+      "exceptionsRu": [
+        "Отравление скрыто от цели; длительный эффект заканчивается при утрате способности источником."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Poisoner",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-poisoner",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "scarletwoman",
+      "nameEn": "Scarlet Woman",
+      "nameRu": "Блудница",
+      "edition": "tb",
+      "team": "minion",
+      "abilityRu": "При смерти Демона становится Демоном, если до смерти живы хотя бы пять обычных игроков.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 21
+      },
+      "reminders": [
+        {
+          "key": "Is The Demon",
+          "labelRu": "Демон"
+        }
+      ],
+      "exceptionsRu": [
+        "Странники не входят в порог; способность действует при любой причине смерти Демона."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Scarlet_Woman",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-scarletwoman",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "spy",
+      "nameEn": "Spy",
+      "nameRu": "Шпион",
+      "edition": "tb",
+      "team": "minion",
+      "abilityRu": "Каждую ночь видит Гримуар; может определяться добрым, Горожанином или Изгоем, даже после смерти.",
+      "setup": false,
+      "night": {
+        "firstNight": 34,
+        "otherNight": 54
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Доступ выдаётся только обладателю действующей способности; это не полномочие создателя комнаты."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Spy",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-spy",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "imp",
+      "nameEn": "Imp",
+      "nameRu": "Бес",
+      "edition": "tb",
+      "team": "demon",
+      "abilityRu": "Каждую ночь, кроме первой, выбирает жертву, которая умирает; если так убивает себя, живой Приспешник становится Бесом.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 24
+      },
+      "reminders": [
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        }
+      ],
+      "exceptionsRu": [
+        "Новый Бес не нападает повторно в эту же ночь; выбранный мёртвый игрок повторно не умирает."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Imp",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-imp",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "beggar",
+      "nameEn": "Beggar",
+      "nameRu": "Нищий",
+      "edition": "tb",
+      "team": "traveller",
+      "abilityRu": "Для голосования за казнь должен потратить жетон голоса. Если мёртвый отдаёт ему жетон, узнаёт сторону дарителя. Всегда трезв и здоров.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "При изгнании голосует свободно; передача жетона добровольна. При смерти накопленные жетоны теряются, остаётся один обычный посмертный голос."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Beggar",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-beggar",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "bureaucrat",
+      "nameEn": "Bureaucrat",
+      "nameRu": "Бюрократ",
+      "edition": "tb",
+      "team": "traveller",
+      "abilityRu": "Каждую ночь выбирает другого игрока: завтра его голос считается за три.",
+      "setup": false,
+      "night": {
+        "firstNight": 7,
+        "otherNight": 5
+      },
+      "reminders": [
+        {
+          "key": "3 Votes",
+          "labelRu": "Три голоса"
+        }
+      ],
+      "exceptionsRu": [
+        "Один поднятый голос даёт вес три; не создаёт дополнительные посмертные жетоны."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Bureaucrat",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-bureaucrat",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "gunslinger",
+      "nameEn": "Gunslinger",
+      "nameRu": "Стрелок",
+      "edition": "tb",
+      "team": "traveller",
+      "abilityRu": "Каждый день после первого подсчёта голосов может выбрать одного из голосовавших: тот умирает.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Выбираются реально голосовавшие при первом подсчёте, независимо от результата номинации."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Gunslinger",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-gunslinger",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "scapegoat",
+      "nameEn": "Scapegoat",
+      "nameRu": "Козёл отпущения",
+      "edition": "tb",
+      "team": "traveller",
+      "abilityRu": "Если игрок его стороны казнён, может быть казнён вместо него.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Это замена казнённого по решению Рассказчика; изгнание заменой не считается."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Scapegoat",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-scapegoat",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "thief",
+      "nameEn": "Thief",
+      "nameRu": "Вор",
+      "edition": "tb",
+      "team": "traveller",
+      "abilityRu": "Каждую ночь выбирает другого игрока: завтра его голос считается отрицательным.",
+      "setup": false,
+      "night": {
+        "firstNight": 8,
+        "otherNight": 6
+      },
+      "reminders": [
+        {
+          "key": "Negative Vote",
+          "labelRu": "Отрицательный голос"
+        }
+      ],
+      "exceptionsRu": [
+        "Изменяется вес голоса на казни; изгнание проводится отдельно."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Thief",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-thief",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "chambermaid",
+      "nameEn": "Chambermaid",
+      "nameRu": "Горничная",
+      "edition": "bmr",
+      "team": "townsfolk",
+      "abilityRu": "Каждую ночь выбирает двух других живых игроков и узнаёт, сколько из них просыпались этой ночью из-за своей способности.",
+      "setup": false,
+      "night": {
+        "firstNight": 35,
+        "otherNight": 55
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Начальное знакомство злых не считается пробуждением из-за способности; себя выбирать нельзя."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Chambermaid",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-chambermaid",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "courtier",
+      "nameEn": "Courtier",
+      "nameRu": "Придворный",
+      "edition": "bmr",
+      "team": "townsfolk",
+      "abilityRu": "Один раз за игру ночью выбирает роль: её обладатель пьян три ночи и три дня.",
+      "setup": false,
+      "night": {
+        "firstNight": 15,
+        "otherNight": 12
+      },
+      "reminders": [
+        {
+          "key": "Drunk 3",
+          "labelRu": "Пьян: три дня"
+        },
+        {
+          "key": "Drunk 2",
+          "labelRu": "Пьян: два дня"
+        },
+        {
+          "key": "Drunk 1",
+          "labelRu": "Пьян: один день"
+        },
+        {
+          "key": "No Ability",
+          "labelRu": "Способность потрачена"
+        }
+      ],
+      "exceptionsRu": [
+        "Выбирается роль, а не игрок; если роли нет, попытка всё равно потрачена."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Courtier",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-courtier",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "exorcist",
+      "nameEn": "Exorcist",
+      "nameRu": "Экзорцист",
+      "edition": "bmr",
+      "team": "townsfolk",
+      "abilityRu": "Каждую ночь, кроме первой, выбирает игрока, отличного от прошлого выбора; выбранный Демон узнаёт Экзорциста и не просыпается этой ночью.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 23
+      },
+      "reminders": [
+        {
+          "key": "Chosen",
+          "labelRu": "Выбран"
+        }
+      ],
+      "exceptionsRu": [
+        "Запрещён повтор подряд; пассивная часть способности Демона не отключается одним запретом пробуждения."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Exorcist",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-exorcist",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "fool",
+      "nameEn": "Fool",
+      "nameRu": "Дурак",
+      "edition": "bmr",
+      "team": "townsfolk",
+      "abilityRu": "Первый раз, когда должен умереть, остаётся жив.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "No Ability",
+          "labelRu": "Способность потрачена"
+        }
+      ],
+      "exceptionsRu": [
+        "Защита одноразовая; казнь при предотвращённой смерти всё равно состоялась."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Fool",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-fool",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "gambler",
+      "nameEn": "Gambler",
+      "nameRu": "Игрок",
+      "edition": "bmr",
+      "team": "townsfolk",
+      "abilityRu": "Каждую ночь, кроме первой, выбирает игрока и угадывает его роль; при ошибке сам умирает.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 14
+      },
+      "reminders": [
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        }
+      ],
+      "exceptionsRu": [
+        "При верной догадке смерть от этой способности не происходит; можно выбирать себя и мёртвых."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Gambler",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-gambler",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "gossip",
+      "nameEn": "Gossip",
+      "nameRu": "Сплетник",
+      "edition": "bmr",
+      "team": "townsfolk",
+      "abilityRu": "Каждый день может публично сделать утверждение; если оно истинно, этой ночью умирает игрок.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 35
+      },
+      "reminders": [
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        }
+      ],
+      "exceptionsRu": [
+        "Жертву выбирает Рассказчик; публичный блеф доступен и игрокам без этой роли."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Gossip",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-gossip",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "grandmother",
+      "nameEn": "Grandmother",
+      "nameRu": "Бабушка",
+      "edition": "bmr",
+      "team": "townsfolk",
+      "abilityRu": "В начале игры узнаёт доброго игрока и его роль; если Демон убивает этого игрока, тоже умирает.",
+      "setup": false,
+      "night": {
+        "firstNight": 30,
+        "otherNight": 42
+      },
+      "reminders": [
+        {
+          "key": "Grandchild",
+          "labelRu": "Внук"
+        },
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        }
+      ],
+      "exceptionsRu": [
+        "Смерть внука от казни или иной способности не запускает это последствие."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Grandmother",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-grandmother",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "innkeeper",
+      "nameEn": "Innkeeper",
+      "nameRu": "Трактирщик",
+      "edition": "bmr",
+      "team": "townsfolk",
+      "abilityRu": "Каждую ночь, кроме первой, выбирает двух игроков: ночью они не могут умереть, но один пьян до заката.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 13
+      },
+      "reminders": [
+        {
+          "key": "Safe",
+          "labelRu": "Защищён"
+        },
+        {
+          "key": "Safe",
+          "labelRu": "Защищён"
+        },
+        {
+          "key": "Drunk",
+          "labelRu": "Пьян"
+        }
+      ],
+      "exceptionsRu": [
+        "Пьяного выбирает Рассказчик; защита ограничена ночью, а опьянение продолжается днём."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Innkeeper",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-innkeeper",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "minstrel",
+      "nameEn": "Minstrel",
+      "nameRu": "Менестрель",
+      "edition": "bmr",
+      "team": "townsfolk",
+      "abilityRu": "Когда Приспешник умирает от казни, все остальные игроки, кроме Странников, пьяны до завтрашнего заката.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "Everyone Is Drunk",
+          "labelRu": "Все пьяны"
+        }
+      ],
+      "exceptionsRu": [
+        "Сам Менестрель исключён; казнь без смерти не запускает эффект."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Minstrel",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-minstrel",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "pacifist",
+      "nameEn": "Pacifist",
+      "nameRu": "Пацифист",
+      "edition": "bmr",
+      "team": "townsfolk",
+      "abilityRu": "Казнённые добрые игроки могут остаться живы.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Решение принимает Рассказчик; казнь и смерть различаются."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Pacifist",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-pacifist",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "professor",
+      "nameEn": "Professor",
+      "nameRu": "Профессор",
+      "edition": "bmr",
+      "team": "townsfolk",
+      "abilityRu": "Один раз за игру ночью, кроме первой, выбирает мёртвого игрока; Горожанин воскресает.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 39
+      },
+      "reminders": [
+        {
+          "key": "Alive",
+          "labelRu": "Жив"
+        },
+        {
+          "key": "No Ability",
+          "labelRu": "Способность потрачена"
+        }
+      ],
+      "exceptionsRu": [
+        "Выбор мёртвого не-Горожанина расходует попытку, но не воскрешает его."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Professor",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-professor",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "sailor",
+      "nameEn": "Sailor",
+      "nameRu": "Моряк",
+      "edition": "bmr",
+      "team": "townsfolk",
+      "abilityRu": "Каждую ночь выбирает живого игрока: до заката либо выбранный, либо сам Моряк пьян. Моряк не может умереть.",
+      "setup": false,
+      "night": {
+        "firstNight": 13,
+        "otherNight": 10
+      },
+      "reminders": [
+        {
+          "key": "Drunk",
+          "labelRu": "Пьян"
+        }
+      ],
+      "exceptionsRu": [
+        "Рассказчик выбирает, кто пьян; пьяный Моряк теряет защиту от смерти."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Sailor",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-sailor",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "tealady",
+      "nameEn": "Tea Lady",
+      "nameRu": "Чайная леди",
+      "edition": "bmr",
+      "team": "townsfolk",
+      "abilityRu": "Если оба ближайших живых соседа добрые, они не могут умереть.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "Cannot Die",
+          "labelRu": "Не может умереть"
+        },
+        {
+          "key": "Cannot Die",
+          "labelRu": "Не может умереть"
+        }
+      ],
+      "exceptionsRu": [
+        "Мёртвые места пропускаются; при изменении стороны или жизни соседа защита пересчитывается сразу."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Tea_Lady",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-tealady",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "goon",
+      "nameEn": "Goon",
+      "nameRu": "Наёмник",
+      "edition": "bmr",
+      "team": "outsider",
+      "abilityRu": "Каждую ночь первый игрок, выбравший его своей способностью, пьян до заката; Наёмник принимает его сторону.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "Drunk",
+          "labelRu": "Пьян"
+        }
+      ],
+      "exceptionsRu": [
+        "Выбор Рассказчиком не является выбором игрока; после первого срабатывания остальные выборы этой ночи не вызывают эффект снова."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Goon",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-goon",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "lunatic",
+      "nameEn": "Lunatic",
+      "nameRu": "Безумец",
+      "edition": "bmr",
+      "team": "outsider",
+      "abilityRu": "Считает себя Демоном, хотя им не является; настоящий Демон знает его и его ночные выборы.",
+      "setup": false,
+      "night": {
+        "firstNight": 11,
+        "otherNight": 22
+      },
+      "reminders": [
+        {
+          "key": "Chosen",
+          "labelRu": "Выбран"
+        },
+        {
+          "key": "Chosen",
+          "labelRu": "Выбран"
+        },
+        {
+          "key": "Chosen",
+          "labelRu": "Выбран"
+        }
+      ],
+      "exceptionsRu": [
+        "Показанная роль отделена от настоящей; нападения Безумца сами по себе не убивают."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Lunatic",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-lunatic",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "moonchild",
+      "nameEn": "Moonchild",
+      "nameRu": "Дитя луны",
+      "edition": "bmr",
+      "team": "outsider",
+      "abilityRu": "Когда узнаёт о своей смерти, публично выбирает живого игрока; если тот был добрым, ночью он умирает.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 41
+      },
+      "reminders": [
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        }
+      ],
+      "exceptionsRu": [
+        "Ночная смерть отложена; важна сторона в момент выбора."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Moonchild",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-moonchild",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "tinker",
+      "nameEn": "Tinker",
+      "nameRu": "Лудильщик",
+      "edition": "bmr",
+      "team": "outsider",
+      "abilityRu": "Может умереть в любой момент.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 40
+      },
+      "reminders": [
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        }
+      ],
+      "exceptionsRu": [
+        "Время выбирает Рассказчик; существующая защита от смерти всё равно применяется, если нет явного обхода."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Tinker",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-tinker",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "assassin",
+      "nameEn": "Assassin",
+      "nameRu": "Ассасин",
+      "edition": "bmr",
+      "team": "minion",
+      "abilityRu": "Один раз за игру ночью, кроме первой, выбирает игрока: тот умирает, даже если не мог умереть.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 33
+      },
+      "reminders": [
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        },
+        {
+          "key": "No Ability",
+          "labelRu": "Способность потрачена"
+        }
+      ],
+      "exceptionsRu": [
+        "Обходит защиту от смерти, но само действие не работает при опьянении или отравлении Ассасина."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Assassin",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-assassin",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "devilsadvocate",
+      "nameEn": "Devil's Advocate",
+      "nameRu": "Адвокат дьявола",
+      "edition": "bmr",
+      "team": "minion",
+      "abilityRu": "Каждую ночь выбирает живого игрока, отличного от прошлого выбора: при завтрашней казни тот не умирает.",
+      "setup": false,
+      "night": {
+        "firstNight": 18,
+        "otherNight": 17
+      },
+      "reminders": [
+        {
+          "key": "Survives Execution",
+          "labelRu": "Переживает казнь"
+        }
+      ],
+      "exceptionsRu": [
+        "Запрет касается последовательных ночных выборов; предотвращается смерть, но не факт казни."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Devil's_Advocate",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-devilsadvocate",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "godfather",
+      "nameEn": "Godfather",
+      "nameRu": "Крёстный отец",
+      "edition": "bmr",
+      "team": "minion",
+      "abilityRu": "В начале знает роли Изгоев в партии. Если днём умер Изгой, ночью выбирает жертву, которая умирает. При подготовке Изгоев на одного больше или меньше.",
+      "setup": true,
+      "night": {
+        "firstNight": 17,
+        "otherNight": 34
+      },
+      "reminders": [
+        {
+          "key": "Died Today",
+          "labelRu": "Умер сегодня"
+        },
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        }
+      ],
+      "exceptionsRu": [
+        "Дневная смерть Изгоя даёт одно ночное действие, даже если таких смертей было несколько; изменение состава только при подготовке."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Godfather",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-godfather",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "mastermind",
+      "nameEn": "Mastermind",
+      "nameRu": "Кукловод",
+      "edition": "bmr",
+      "team": "minion",
+      "abilityRu": "Если Демон умер от казни, которая должна завершить игру, игра длится ещё один день; команда казнённого в этот день проигрывает.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Учитывается казнь даже без смерти; если в дополнительный день казни нет, добро побеждает."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Mastermind",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-mastermind",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "po",
+      "nameEn": "Po",
+      "nameRu": "По",
+      "edition": "bmr",
+      "team": "demon",
+      "abilityRu": "Каждую ночь, кроме первой, может выбрать жертву; если прошлый выбор был пропуском, этой ночью выбирает троих.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 28
+      },
+      "reminders": [
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        },
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        },
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        },
+        {
+          "key": "3 Attacks",
+          "labelRu": "Три нападения"
+        }
+      ],
+      "exceptionsRu": [
+        "Осознанный пропуск заряжает три атаки даже у пьяного или отравленного По; без пробуждения заряд не возникает и не тратится. При трёх атаках повторный пропуск запрещён."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Po",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-po",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "pukka",
+      "nameEn": "Pukka",
+      "nameRu": "Пукка",
+      "edition": "bmr",
+      "team": "demon",
+      "abilityRu": "Каждую ночь выбирает игрока и отравляет его; предыдущая отравленная жертва умирает и затем становится здоровой.",
+      "setup": false,
+      "night": {
+        "firstNight": 22,
+        "otherNight": 26
+      },
+      "reminders": [
+        {
+          "key": "Poisoned",
+          "labelRu": "Отравлен"
+        },
+        {
+          "key": "Poisoned",
+          "labelRu": "Отравлен"
+        },
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        }
+      ],
+      "exceptionsRu": [
+        "В первую ночь только назначается первая жертва; смерть следующей ночи предшествует снятию отравления."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Pukka",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-pukka",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "shabaloth",
+      "nameEn": "Shabaloth",
+      "nameRu": "Шабалот",
+      "edition": "bmr",
+      "team": "demon",
+      "abilityRu": "Каждую ночь, кроме первой, выбирает двух жертв, которые умирают; один мёртвый из выбранных прошлой ночью может воскреснуть.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 27
+      },
+      "reminders": [
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        },
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        },
+        {
+          "key": "Alive",
+          "labelRu": "Жив"
+        }
+      ],
+      "exceptionsRu": [
+        "Воскрешение решает Рассказчик; цели и порядок нападений сохраняются для следующей ночи."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Shabaloth",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-shabaloth",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "zombuul",
+      "nameEn": "Zombuul",
+      "nameRu": "Зомбул",
+      "edition": "bmr",
+      "team": "demon",
+      "abilityRu": "Каждую ночь, кроме первой, если днём никто не умер, выбирает жертву. Первый раз вместо смерти остаётся живым, но определяется мёртвым.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 25
+      },
+      "reminders": [
+        {
+          "key": "Died Today",
+          "labelRu": "Умер сегодня"
+        },
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        }
+      ],
+      "exceptionsRu": [
+        "Фактическая и публичная жизнь различаются; повторная казнь публично мёртвого может убить настоящего Демона."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Zombuul",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-zombuul",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "apprentice",
+      "nameEn": "Apprentice",
+      "nameRu": "Ученик",
+      "edition": "bmr",
+      "team": "traveller",
+      "abilityRu": "В свою первую ночь получает способность Горожанина, если добрый, либо Приспешника, если злой.",
+      "setup": false,
+      "night": {
+        "firstNight": 5,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "Is The Apprentice",
+          "labelRu": "Ученик"
+        }
+      ],
+      "exceptionsRu": [
+        "Способность назначает Рассказчик; роль остаётся Странником и публично известна."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Apprentice",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-apprentice",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "bishop",
+      "nameEn": "Bishop",
+      "nameRu": "Епископ",
+      "edition": "bmr",
+      "team": "traveller",
+      "abilityRu": "Номинировать может только Рассказчик; каждый день он должен номинировать хотя бы одного игрока противоположной Епископу стороны.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "Nominate Good",
+          "labelRu": "Номинировать доброго"
+        },
+        {
+          "key": "Nominate Evil",
+          "labelRu": "Номинировать злого"
+        }
+      ],
+      "exceptionsRu": [
+        "Ограничивается право номинации; сторона Епископа остаётся скрытой."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Bishop",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-bishop",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "judge",
+      "nameEn": "Judge",
+      "nameRu": "Судья",
+      "edition": "bmr",
+      "team": "traveller",
+      "abilityRu": "Один раз за игру при номинации другого игрока может принудительно провести или отклонить текущую казнь.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "No Ability",
+          "labelRu": "Способность потрачена"
+        }
+      ],
+      "exceptionsRu": [
+        "Собственная номинация Судьи не подходит; это не замена процедуры изгнания."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Judge",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-judge",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "matron",
+      "nameEn": "Matron",
+      "nameRu": "Матрона",
+      "edition": "bmr",
+      "team": "traveller",
+      "abilityRu": "Каждый день может до трёх раз поменять местами пару игроков; игроки не могут отходить от мест ради приватной беседы.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Пересадка меняет соседство сразу; запрет касается отхода от мест, а не автоматического раскрытия приватных сообщений."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Matron",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-matron",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "voudon",
+      "nameEn": "Voudon",
+      "nameRu": "Вудуист",
+      "edition": "bmr",
+      "team": "traveller",
+      "abilityRu": "Голосовать могут только он и мёртвые; мёртвым не нужны жетоны голоса, а порог в половину живых не требуется.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Правило казни отличается от обычного; отдельная процедура изгнания Странников сохраняется."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Voudon",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-voudon",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "artist",
+      "nameEn": "Artist",
+      "nameRu": "Художник",
+      "edition": "snv",
+      "team": "townsfolk",
+      "abilityRu": "Один раз за игру днём приватно задаёт Рассказчику вопрос с ответом да или нет.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "No Ability",
+          "labelRu": "Способность потрачена"
+        }
+      ],
+      "exceptionsRu": [
+        "Истинность произвольного вопроса требует разбора; программный режим не обещает понимания любого текста."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Artist",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-artist",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "clockmaker",
+      "nameEn": "Clockmaker",
+      "nameRu": "Часовщик",
+      "edition": "snv",
+      "team": "townsfolk",
+      "abilityRu": "В начале игры узнаёт расстояние по кругу от Демона до ближайшего Приспешника.",
+      "setup": false,
+      "night": {
+        "firstNight": 31,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Считается кратчайшее расстояние в обоих направлениях; мёртвые места не пропускаются."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Clockmaker",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-clockmaker",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "dreamer",
+      "nameEn": "Dreamer",
+      "nameRu": "Сновидец",
+      "edition": "snv",
+      "team": "townsfolk",
+      "abilityRu": "Каждую ночь выбирает игрока, кроме себя и Странников, и узнаёт добрую и злую роли: одна из них верна.",
+      "setup": false,
+      "night": {
+        "firstNight": 32,
+        "otherNight": 47
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Можно выбрать мёртвого; при ложной регистрации нужно согласовать показанную пару с правилами регистрации."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Dreamer",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-dreamer",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "flowergirl",
+      "nameEn": "Flowergirl",
+      "nameRu": "Цветочница",
+      "edition": "snv",
+      "team": "townsfolk",
+      "abilityRu": "Каждую ночь, кроме первой, узнаёт, голосовал ли сегодня Демон.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 48
+      },
+      "reminders": [
+        {
+          "key": "Demon Voted",
+          "labelRu": "Демон голосовал"
+        },
+        {
+          "key": "Demon Not Voted",
+          "labelRu": "Демон не голосовал"
+        }
+      ],
+      "exceptionsRu": [
+        "Учитываются игровые голосования по номинациям, а не изгнание Странника."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Flowergirl",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-flowergirl",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "juggler",
+      "nameEn": "Juggler",
+      "nameRu": "Жонглёр",
+      "edition": "snv",
+      "team": "townsfolk",
+      "abilityRu": "В свой первый день публично угадывает роли не более пяти игроков; ночью узнаёт число верных догадок.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 52
+      },
+      "reminders": [
+        {
+          "key": "Correct",
+          "labelRu": "Верно"
+        },
+        {
+          "key": "Correct",
+          "labelRu": "Верно"
+        },
+        {
+          "key": "Correct",
+          "labelRu": "Верно"
+        },
+        {
+          "key": "Correct",
+          "labelRu": "Верно"
+        },
+        {
+          "key": "Correct",
+          "labelRu": "Верно"
+        }
+      ],
+      "exceptionsRu": [
+        "Это первый день с этой способностью, а не обязательно первый день всей партии; проверяется регистрация."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Juggler",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-juggler",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "mathematician",
+      "nameEn": "Mathematician",
+      "nameRu": "Математик",
+      "edition": "snv",
+      "team": "townsfolk",
+      "abilityRu": "Каждую ночь узнаёт, у скольких игроков с рассвета способности сработали ненормально из-за способности другого персонажа.",
+      "setup": false,
+      "night": {
+        "firstNight": 36,
+        "otherNight": 56
+      },
+      "reminders": [
+        {
+          "key": "Abnormal",
+          "labelRu": "Ненормальное срабатывание"
+        },
+        {
+          "key": "Abnormal",
+          "labelRu": "Ненормальное срабатывание"
+        },
+        {
+          "key": "Abnormal",
+          "labelRu": "Ненормальное срабатывание"
+        },
+        {
+          "key": "Abnormal",
+          "labelRu": "Ненормальное срабатывание"
+        },
+        {
+          "key": "Abnormal",
+          "labelRu": "Ненормальное срабатывание"
+        }
+      ],
+      "exceptionsRu": [
+        "Считаются игроки, а не число сбоев; одно лишь отравление без ненормального результата не увеличивает число."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Mathematician",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-mathematician",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "oracle",
+      "nameEn": "Oracle",
+      "nameRu": "Оракул",
+      "edition": "snv",
+      "team": "townsfolk",
+      "abilityRu": "Каждую ночь, кроме первой, узнаёт число злых среди мёртвых игроков.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 50
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Проверяется текущая сторона мёртвых, включая смены стороны и регистрацию."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Oracle",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-oracle",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "philosopher",
+      "nameEn": "Philosopher",
+      "nameRu": "Философ",
+      "edition": "snv",
+      "team": "townsfolk",
+      "abilityRu": "Один раз за игру ночью выбирает добрую роль и получает её способность; если роль уже в партии, её обладатель пьян.",
+      "setup": false,
+      "night": {
+        "firstNight": 9,
+        "otherNight": 9
+      },
+      "reminders": [
+        {
+          "key": "Drunk",
+          "labelRu": "Пьян"
+        }
+      ],
+      "exceptionsRu": [
+        "Философ получает способность, сохраняя свою роль; опьянение связано с действующей способностью Философа."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Philosopher",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-philosopher",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "sage",
+      "nameEn": "Sage",
+      "nameRu": "Мудрец",
+      "edition": "snv",
+      "team": "townsfolk",
+      "abilityRu": "Если Демон убивает его, узнаёт двух игроков, среди которых находится Демон.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 38
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Смерть от иной причины не даёт информации; срабатывание связано с моментом убийства."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Sage",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-sage",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "savant",
+      "nameEn": "Savant",
+      "nameRu": "Эрудит",
+      "edition": "snv",
+      "team": "townsfolk",
+      "abilityRu": "Каждый день может приватно получить у Рассказчика два утверждения: одно истинное и одно ложное.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Нужна оценка истинности обоих утверждений; свободный текст не должен автоматически получать выдуманную оценку."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Savant",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-savant",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "seamstress",
+      "nameEn": "Seamstress",
+      "nameRu": "Швея",
+      "edition": "snv",
+      "team": "townsfolk",
+      "abilityRu": "Один раз за игру ночью выбирает двух других игроков и узнаёт, одинаковые ли у них стороны.",
+      "setup": false,
+      "night": {
+        "firstNight": 33,
+        "otherNight": 51
+      },
+      "reminders": [
+        {
+          "key": "No Ability",
+          "labelRu": "Способность потрачена"
+        }
+      ],
+      "exceptionsRu": [
+        "Мёртвых выбирать можно; себя выбирать нельзя; учитывается регистрация сторон."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Seamstress",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-seamstress",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "snakecharmer",
+      "nameEn": "Snake Charmer",
+      "nameRu": "Заклинатель змей",
+      "edition": "snv",
+      "team": "townsfolk",
+      "abilityRu": "Каждую ночь выбирает живого игрока; если это Демон, меняется с ним ролями и сторонами, а прежний Демон становится отравленным.",
+      "setup": false,
+      "night": {
+        "firstNight": 16,
+        "otherNight": 15
+      },
+      "reminders": [
+        {
+          "key": "Poisoned",
+          "labelRu": "Отравлен"
+        }
+      ],
+      "exceptionsRu": [
+        "Отравлен именно новый Заклинатель змей; обычные сведения злой команды при смене роли не выдаются."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Snake_Charmer",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-snakecharmer",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "towncrier",
+      "nameEn": "Town Crier",
+      "nameRu": "Глашатай",
+      "edition": "snv",
+      "team": "townsfolk",
+      "abilityRu": "Каждую ночь, кроме первой, узнаёт, выдвигал ли сегодня номинацию Приспешник.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 49
+      },
+      "reminders": [
+        {
+          "key": "Minions Not Nominated",
+          "labelRu": "Приспешники не номинировали"
+        },
+        {
+          "key": "Minion Nominated",
+          "labelRu": "Приспешник номинировал"
+        }
+      ],
+      "exceptionsRu": [
+        "Номинация считается независимо от числа набранных голосов и последующей казни."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Town_Crier",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-towncrier",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "barber",
+      "nameEn": "Barber",
+      "nameRu": "Цирюльник",
+      "edition": "snv",
+      "team": "outsider",
+      "abilityRu": "Если умер сегодня или ночью, Демон может выбрать двух игроков, кроме другого Демона, и поменять их ролями.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 36
+      },
+      "reminders": [
+        {
+          "key": "Haircuts Tonight",
+          "labelRu": "Обмен ролями ночью"
+        }
+      ],
+      "exceptionsRu": [
+        "Меняются роли, а не стороны; Демон вправе отказаться от обмена."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Barber",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-barber",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "klutz",
+      "nameEn": "Klutz",
+      "nameRu": "Олух",
+      "edition": "snv",
+      "team": "outsider",
+      "abilityRu": "Когда узнаёт о своей смерти, публично выбирает живого игрока; если тот злой, команда Олуха проигрывает.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Триггер — получение известия о смерти; выбранный должен быть жив в момент выбора."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Klutz",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-klutz",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "mutant",
+      "nameEn": "Mutant",
+      "nameRu": "Мутант",
+      "edition": "snv",
+      "team": "outsider",
+      "abilityRu": "Если убеждает других, что является Изгоем, может быть казнён.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Помешательство оценивается по поведению человеком, а не по одному ключевому слову; казнь по решению Рассказчика."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Mutant",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-mutant",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "sweetheart",
+      "nameEn": "Sweetheart",
+      "nameRu": "Милашка",
+      "edition": "snv",
+      "team": "outsider",
+      "abilityRu": "При смерти один игрок становится пьяным с этого момента.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 37
+      },
+      "reminders": [
+        {
+          "key": "Drunk",
+          "labelRu": "Пьян"
+        }
+      ],
+      "exceptionsRu": [
+        "Эффект специально сохраняется после смерти источника; жертву выбирает Рассказчик."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Sweetheart",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-sweetheart",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "cerenovus",
+      "nameEn": "Cerenovus",
+      "nameRu": "Цереновус",
+      "edition": "snv",
+      "team": "minion",
+      "abilityRu": "Каждую ночь выбирает игрока и добрую роль; завтра цель должна убеждать других, что имеет эту роль, иначе может быть казнена.",
+      "setup": false,
+      "night": {
+        "firstNight": 21,
+        "otherNight": 19
+      },
+      "reminders": [
+        {
+          "key": "Mad",
+          "labelRu": "Помешательство"
+        }
+      ],
+      "exceptionsRu": [
+        "Оценка помешательства требует трактовки; казнь не обязана произойти автоматически."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Cerenovus",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-cerenovus",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "eviltwin",
+      "nameEn": "Evil Twin",
+      "nameRu": "Злой близнец",
+      "edition": "snv",
+      "team": "minion",
+      "abilityRu": "Знает игрока противоположной стороны, и тот знает его. Казнь доброго близнеца даёт победу злу; пока оба живы, добро не может победить.",
+      "setup": false,
+      "night": {
+        "firstNight": 19,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "Twin",
+          "labelRu": "Близнец"
+        }
+      ],
+      "exceptionsRu": [
+        "В первую ночь оба узнают личности и роли друг друга; смерть Демона не даёт добру победу, пока блокировка действует."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Evil_Twin",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-eviltwin",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "pithag",
+      "nameEn": "Pit-Hag",
+      "nameRu": "Яга",
+      "edition": "snv",
+      "team": "minion",
+      "abilityRu": "Каждую ночь, кроме первой, выбирает игрока и роль: если этой роли нет в партии, игрок становится ею; если создан Демон, смерти этой ночи определяет Рассказчик.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 20
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Выбор уже присутствующей роли разрешён, но ничего не меняет; наличие роли не раскрывается ошибкой. Сторона при смене роли сохраняется."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Pit-Hag",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-pithag",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "witch",
+      "nameEn": "Witch",
+      "nameRu": "Ведьма",
+      "edition": "snv",
+      "team": "minion",
+      "abilityRu": "Каждую ночь выбирает игрока: если завтра тот номинирует, он умирает. При трёх живых игроках способность утрачивается.",
+      "setup": false,
+      "night": {
+        "firstNight": 20,
+        "otherNight": 18
+      },
+      "reminders": [
+        {
+          "key": "Cursed",
+          "labelRu": "Проклят"
+        }
+      ],
+      "exceptionsRu": [
+        "Смерть номинатора не отменяет уже начатую номинацию; Странники не учитываются в пороге трёх."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Witch",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-witch",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "fanggu",
+      "nameEn": "Fang Gu",
+      "nameRu": "Фан Гу",
+      "edition": "snv",
+      "team": "demon",
+      "abilityRu": "Каждую ночь, кроме первой, убивает выбранного. Первый убитый этой способностью Изгой вместо смерти становится злым Фан Гу, а прежний Демон умирает. При подготовке на одного Изгоя больше.",
+      "setup": true,
+      "night": {
+        "firstNight": null,
+        "otherNight": 29
+      },
+      "reminders": [
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        },
+        {
+          "key": "Once",
+          "labelRu": "Один раз"
+        }
+      ],
+      "exceptionsRu": [
+        "Переход к Изгою возможен только один раз за всю партию, без сброса при смене роли или смерти; новый Демон той же ночью повторно не нападает."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Fang_Gu",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-fanggu",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "nodashii",
+      "nameEn": "No Dashii",
+      "nameRu": "Но Даши",
+      "edition": "snv",
+      "team": "demon",
+      "abilityRu": "Каждую ночь, кроме первой, выбирает жертву, которая умирает; два ближайших Горожанина по разные стороны от него отравлены.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 30
+      },
+      "reminders": [
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        },
+        {
+          "key": "Poisoned",
+          "labelRu": "Отравлен"
+        },
+        {
+          "key": "Poisoned",
+          "labelRu": "Отравлен"
+        }
+      ],
+      "exceptionsRu": [
+        "При поиске соседей пропускаются роли других типов; после смены ролей соседство пересчитывается."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/No_Dashii",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-nodashii",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "vigormortis",
+      "nameEn": "Vigormortis",
+      "nameRu": "Вигормортис",
+      "edition": "snv",
+      "team": "demon",
+      "abilityRu": "Каждую ночь, кроме первой, убивает выбранного. Убитые им Приспешники сохраняют способности и отравляют по одному соседнему Горожанину. При подготовке на одного Изгоя меньше.",
+      "setup": true,
+      "night": {
+        "firstNight": null,
+        "otherNight": 32
+      },
+      "reminders": [
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        },
+        {
+          "key": "Has Ability",
+          "labelRu": "Есть способность"
+        },
+        {
+          "key": "Has Ability",
+          "labelRu": "Есть способность"
+        },
+        {
+          "key": "Has Ability",
+          "labelRu": "Есть способность"
+        },
+        {
+          "key": "Poisoned",
+          "labelRu": "Отравлен"
+        },
+        {
+          "key": "Poisoned",
+          "labelRu": "Отравлен"
+        },
+        {
+          "key": "Poisoned",
+          "labelRu": "Отравлен"
+        }
+      ],
+      "exceptionsRu": [
+        "Сохранение способности зависит от действующей способности Вигормортиса; соседние Горожане определяются отдельно для каждого Приспешника."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Vigormortis",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-vigormortis",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "vortox",
+      "nameEn": "Vortox",
+      "nameRu": "Вортокс",
+      "edition": "snv",
+      "team": "demon",
+      "abilityRu": "Каждую ночь, кроме первой, убивает выбранного. Информация от способностей Горожан ложна. Если днём никого не казнили, зло побеждает.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 31
+      },
+      "reminders": [
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        }
+      ],
+      "exceptionsRu": [
+        "Требуется казнь, а не обязательно смерть; ложность информации отличается от произвольной информации пьяного."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Vortox",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-vortox",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "barista",
+      "nameEn": "Barista",
+      "nameRu": "Бариста",
+      "edition": "snv",
+      "team": "traveller",
+      "abilityRu": "Каждую ночь до заката один игрок либо трезв, здоров и получает правдивую информацию, либо действует своей способностью дважды; он узнаёт какой эффект получил.",
+      "setup": false,
+      "night": {
+        "firstNight": 6,
+        "otherNight": 4
+      },
+      "reminders": [
+        {
+          "key": "Sober & Healthy",
+          "labelRu": "Трезв и здоров"
+        },
+        {
+          "key": "Acts Twice",
+          "labelRu": "Действует дважды"
+        },
+        {
+          "key": "?",
+          "labelRu": "Вариант"
+        },
+        {
+          "key": "?",
+          "labelRu": "Вариант"
+        }
+      ],
+      "exceptionsRu": [
+        "Цель и вариант выбирает Рассказчик; это два разных действия способности, а не удвоение произвольного числового результата."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Barista",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-barista",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "bonecollector",
+      "nameEn": "Bone Collector",
+      "nameRu": "Собиратель костей",
+      "edition": "snv",
+      "team": "traveller",
+      "abilityRu": "Один раз за игру ночью, кроме первой, выбирает мёртвого игрока: тот получает способность до заката.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 8
+      },
+      "reminders": [
+        {
+          "key": "No Ability",
+          "labelRu": "Способность потрачена"
+        },
+        {
+          "key": "Has Ability",
+          "labelRu": "Есть способность"
+        }
+      ],
+      "exceptionsRu": [
+        "Игрок остаётся мёртвым; восстановление способности не является воскрешением."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Bone_Collector",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-bonecollector",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "butcher",
+      "nameEn": "Butcher",
+      "nameRu": "Мясник",
+      "edition": "snv",
+      "team": "traveller",
+      "abilityRu": "Каждый день после первой казни может номинировать ещё раз.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Даёт дополнительную номинацию после казни и возможность дополнительной казни этого дня."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Butcher",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-butcher",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "deviant",
+      "nameEn": "Deviant",
+      "nameRu": "Чудак",
+      "edition": "snv",
+      "team": "traveller",
+      "abilityRu": "Если сегодня был смешным, не может умереть от изгнания.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Рассказчик оценивает условие; защита не распространяется на казнь или ночное убийство."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Deviant",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-deviant",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "harlot",
+      "nameEn": "Harlot",
+      "nameRu": "Куртизанка",
+      "edition": "snv",
+      "team": "traveller",
+      "abilityRu": "Каждую ночь, кроме первой, выбирает живого игрока; с его согласия узнаёт его роль, но оба могут умереть.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 7
+      },
+      "reminders": [
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        },
+        {
+          "key": "Dead",
+          "labelRu": "Мёртв"
+        }
+      ],
+      "exceptionsRu": [
+        "Без согласия информация не выдаётся; смерть пары определяется Рассказчиком."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Harlot",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-harlot",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "angel",
+      "nameEn": "Angel",
+      "nameRu": "Ангел",
+      "edition": "fabled",
+      "team": "fabled",
+      "abilityRu": "С главным виновником смерти новичка может произойти что-то плохое.",
+      "setup": false,
+      "night": {
+        "firstNight": 2,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "Protected",
+          "labelRu": "Под защитой"
+        },
+        {
+          "key": "Protected",
+          "labelRu": "Под защитой"
+        },
+        {
+          "key": "Something Bad",
+          "labelRu": "Неприятное последствие"
+        }
+      ],
+      "exceptionsRu": [
+        "Новички и возможные последствия объявляются Рассказчиком; это помощь реальным людям, а не скрытая роль игрока."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Angel",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-angel",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "buddhist",
+      "nameEn": "Buddhist",
+      "nameRu": "Буддист",
+      "edition": "fabled",
+      "team": "fabled",
+      "abilityRu": "Первые две минуты каждого дня опытные игроки не могут говорить.",
+      "setup": false,
+      "night": {
+        "firstNight": 3,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Состав опытных определяется заранее; отсчёт ведётся по серверному времени."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Buddhist",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-buddhist",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "djinn",
+      "nameEn": "Djinn",
+      "nameRu": "Джинн",
+      "edition": "fabled",
+      "team": "fabled",
+      "abilityRu": "Применяется особое правило Джинна, известное всем игрокам.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Конкретное правило должно быть опубликовано; оно не даёт права придумывать скрытые изменения задним числом."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Djinn",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-djinn",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "doomsayer",
+      "nameEn": "Doomsayer",
+      "nameRu": "Предвестник",
+      "edition": "fabled",
+      "team": "fabled",
+      "abilityRu": "Когда живы не менее четырёх игроков, каждый живой один раз за игру может публично пожелать смерти игрока своей стороны.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Жертву выбирает Рассказчик; сторона желающего не раскрывается способом выбора жертвы."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Doomsayer",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-doomsayer",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "duchess",
+      "nameEn": "Duchess",
+      "nameRu": "Герцогиня",
+      "edition": "fabled",
+      "team": "fabled",
+      "abilityRu": "Днём трое игроков могут посетить Рассказчика; следующей ночью каждый узнаёт число злых среди посетителей, но один получает ложное число.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": 2
+      },
+      "reminders": [
+        {
+          "key": "Visitor",
+          "labelRu": "Посетитель"
+        },
+        {
+          "key": "Visitor",
+          "labelRu": "Посетитель"
+        },
+        {
+          "key": "False Info",
+          "labelRu": "Ложная информация"
+        }
+      ],
+      "exceptionsRu": [
+        "Требуется тройка посетителей; ровно один получает ложь, два остальных получают истину."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Duchess",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-duchess",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "fibbin",
+      "nameEn": "Fibbin",
+      "nameRu": "Врун",
+      "edition": "fabled",
+      "team": "fabled",
+      "abilityRu": "Один раз за игру один добрый игрок может получить неверную информацию.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "No Ability",
+          "labelRu": "Способность потрачена"
+        }
+      ],
+      "exceptionsRu": [
+        "Срабатывание выбирает Рассказчик; не меняет сторону или настоящую роль получателя."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Fibbin",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-fibbin",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "fiddler",
+      "nameEn": "Fiddler",
+      "nameRu": "Скрипач",
+      "edition": "fabled",
+      "team": "fabled",
+      "abilityRu": "Один раз за игру Демон тайно выбирает игрока противоположной стороны; все игроки выбирают, кто из этих двоих победит.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "При равенстве побеждает зло; способности и жетоны посмертных голосов не влияют на это специальное завершение."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Fiddler",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-fiddler",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "hellslibrarian",
+      "nameEn": "Hell's Librarian",
+      "nameRu": "Адский библиотекарь",
+      "edition": "fabled",
+      "team": "fabled",
+      "abilityRu": "С говорящим после просьбы Рассказчика соблюдать тишину может произойти что-то плохое.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "Something Bad",
+          "labelRu": "Неприятное последствие"
+        }
+      ],
+      "exceptionsRu": [
+        "Условие требует явной просьбы о тишине; последствия определяет Рассказчик."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Hell's_Librarian",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-hellslibrarian",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "revolutionary",
+      "nameEn": "Revolutionary",
+      "nameRu": "Революционер",
+      "edition": "fabled",
+      "team": "fabled",
+      "abilityRu": "Два соседних игрока объявлены одной стороны; один раз за игру один из них определяется ложно.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "Register Falsely?",
+          "labelRu": "Ложная регистрация"
+        },
+        {
+          "key": "Aligned",
+          "labelRu": "Одна сторона"
+        },
+        {
+          "key": "Aligned",
+          "labelRu": "Одна сторона"
+        }
+      ],
+      "exceptionsRu": [
+        "Настоящие стороны пары одинаковы; исключение касается регистрации, а не смены стороны."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Revolutionary",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-revolutionary",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "sentinel",
+      "nameEn": "Sentinel",
+      "nameRu": "Страж",
+      "edition": "fabled",
+      "team": "fabled",
+      "abilityRu": "При подготовке Изгоев может быть на одного больше или меньше.",
+      "setup": true,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [],
+      "exceptionsRu": [
+        "Изменение только при подготовке и с сохранением общего числа игроков."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Sentinel",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-sentinel",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "spiritofivory",
+      "nameEn": "Spirit of Ivory",
+      "nameRu": "Дух слоновой кости",
+      "edition": "fabled",
+      "team": "fabled",
+      "abilityRu": "В партии не может быть более одного дополнительного злого игрока.",
+      "setup": false,
+      "night": {
+        "firstNight": null,
+        "otherNight": null
+      },
+      "reminders": [
+        {
+          "key": "No More Evil",
+          "labelRu": "Больше зла нельзя"
+        }
+      ],
+      "exceptionsRu": [
+        "Ограничено текущее число дополнительных злых относительно начального состава, а не суммарное число обращений за партию; смерть злого не делает его добрым."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Spirit_of_Ivory",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-spiritofivory",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    },
+    {
+      "id": "toymaker",
+      "nameEn": "Toymaker",
+      "nameRu": "Игрушечник",
+      "edition": "fabled",
+      "team": "fabled",
+      "abilityRu": "Демон может пропустить нападение и обязан сделать это хотя бы один раз за игру; злые получают обычные начальные сведения.",
+      "setup": false,
+      "night": {
+        "firstNight": 4,
+        "otherNight": 3
+      },
+      "reminders": [
+        {
+          "key": "Final Night: No Attack",
+          "labelRu": "Последняя ночь: без нападения"
+        }
+      ],
+      "exceptionsRu": [
+        "Применяется в том числе для малой партии, где без этого правила сведения злым не выдаются."
+      ],
+      "source": {
+        "url": "https://wiki.bloodontheclocktower.com/Toymaker",
+        "section": "Summary / How to Run",
+        "snapshotCheckedAt": "2026-11-17",
+        "datasetCommit": "f10cd02e3401af227ce406287eaae7bb99a06a42"
+      },
+      "requirementId": "ROLE-toymaker",
+      "implementation": {
+        "status": "not_implemented",
+        "path": null
+      },
+      "verification": {
+        "catalog": "node scripts/check-rules.mjs",
+        "behaviorStatus": "pending",
+        "behaviorTest": null
+      }
+    }
+  ],
+  "baseJinxes": [
+    {
+      "characters": [
+        "mastermind",
+        "vigormortis"
+      ],
+      "reasonRu": "Кукловод, сохранивший способность, сохраняет её и после смерти Вигормортиса."
+    },
+    {
+      "characters": [
+        "mathematician",
+        "chambermaid"
+      ],
+      "reasonRu": "Горничная может определить, проснётся ли Математик этой ночью."
+    },
+    {
+      "characters": [
+        "mathematician",
+        "drunk"
+      ],
+      "reasonRu": "Математик узнаёт, выдала ли показанная способность Пьяницы ложную информацию или сработала неправильно."
+    },
+    {
+      "characters": [
+        "mathematician",
+        "lunatic"
+      ],
+      "reasonRu": "Математик узнаёт, нападал ли Безумец на игрока, отличного от цели настоящего Демона."
+    },
+    {
+      "characters": [
+        "pithag",
+        "goon"
+      ],
+      "reasonRu": "Если Яга превратила злого игрока в Наёмника, он не может стать добрым из-за собственной способности."
+    },
+    {
+      "characters": [
+        "recluse",
+        "sage"
+      ],
+      "reasonRu": "Отшельник может определяться Демоном для Мудреца."
+    },
+    {
+      "characters": [
+        "scarletwoman",
+        "fanggu"
+      ],
+      "reasonRu": "Если должно появиться два Демона, один из которых был Блудницей, Блудница остаётся Блудницей."
+    }
+  ]
+}

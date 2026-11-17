@@ -1,0 +1,551 @@
+[
+  {
+    "name": "Готовность",
+    "schema": "Health",
+    "value": {
+      "status": "ok"
+    },
+    "valid": true
+  },
+  {
+    "name": "Состояние каркаса",
+    "schema": "Status",
+    "value": {
+      "service": "blood-api",
+      "stage": "bootstrap"
+    },
+    "valid": true
+  },
+  {
+    "name": "Вход",
+    "schema": "Credentials",
+    "value": {
+      "login": "alice",
+      "password": "test-password-only"
+    },
+    "valid": true
+  },
+  {
+    "name": "Комната",
+    "schema": "RoomView",
+    "value": {
+      "room": {
+        "id": "room-1",
+        "name": "Вранский лес",
+        "script": "trouble_brewing",
+        "mode": "program_storyteller",
+        "creator": {
+          "id": "user-1",
+          "login": "alice"
+        },
+        "capacity": 10,
+        "playerCount": 1,
+        "state": "waiting",
+        "joinable": true
+      },
+      "participants": [
+        {
+          "user": {
+            "id": "user-1",
+            "login": "alice"
+          },
+          "seat": 0,
+          "ready": false,
+          "connected": true,
+          "publicAlive": true
+        }
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "Подписка на каталог",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "rooms.subscribe",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {}
+    },
+    "valid": true
+  },
+  {
+    "name": "Подписка на комнату",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "room.subscribe",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {
+        "roomId": "room-1"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "Подписка на приватную беседу",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "conversation.subscribe",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {
+        "conversationId": "conversation-1"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "Готовность игрока",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "room.ready",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {
+        "roomId": "room-1",
+        "ready": true
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "Место игрока",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "room.seat",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {
+        "roomId": "room-1",
+        "seat": 19
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "Общий чат",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "room.message.send",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {
+        "roomId": "room-1",
+        "text": "Добрый вечер"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "Приватный чат",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "conversation.message.send",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {
+        "conversationId": "conversation-1",
+        "text": "Привет"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "Проверка связи",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "ping",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {}
+    },
+    "valid": true
+  },
+  {
+    "name": "Подтверждение",
+    "schema": "ServerMessage",
+    "value": {
+      "version": 1,
+      "type": "ack",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {}
+    },
+    "valid": true
+  },
+  {
+    "name": "Безопасная ошибка",
+    "schema": "ServerMessage",
+    "value": {
+      "version": 1,
+      "type": "error",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {
+        "code": "forbidden",
+        "message": "Действие недоступно"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "Снимок каталога",
+    "schema": "ServerMessage",
+    "value": {
+      "version": 1,
+      "type": "rooms.snapshot",
+      "payload": {
+        "viewRevision": "1",
+        "view": {
+          "rooms": [
+            {
+              "id": "room-1",
+              "name": "Вранский лес",
+              "script": "trouble_brewing",
+              "mode": "program_storyteller",
+              "creator": {
+                "id": "user-1",
+                "login": "alice"
+              },
+              "capacity": 10,
+              "playerCount": 1,
+              "state": "waiting",
+              "joinable": true
+            }
+          ]
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "Снимок комнаты",
+    "schema": "ServerMessage",
+    "value": {
+      "version": 1,
+      "type": "room.snapshot",
+      "payload": {
+        "roomId": "room-1",
+        "viewRevision": "10",
+        "view": {
+          "room": {
+            "id": "room-1",
+            "name": "Вранский лес",
+            "script": "trouble_brewing",
+            "mode": "program_storyteller",
+            "creator": {
+              "id": "user-1",
+              "login": "alice"
+            },
+            "capacity": 10,
+            "playerCount": 1,
+            "state": "waiting",
+            "joinable": true
+          },
+          "participants": [
+            {
+              "user": {
+                "id": "user-1",
+                "login": "alice"
+              },
+              "seat": 0,
+              "ready": false,
+              "connected": true,
+              "publicAlive": true
+            }
+          ]
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "Личная информация",
+    "schema": "ServerMessage",
+    "value": {
+      "version": 1,
+      "type": "self.snapshot",
+      "payload": {
+        "roomId": "room-1",
+        "viewRevision": "2",
+        "view": {
+          "userId": "user-1",
+          "shownRoleId": "washerwoman",
+          "shownAlignment": "good",
+          "information": []
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "Приватная история",
+    "schema": "ServerMessage",
+    "value": {
+      "version": 1,
+      "type": "conversation.snapshot",
+      "payload": {
+        "conversationId": "conversation-1",
+        "viewRevision": "3",
+        "view": {
+          "messages": []
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "Время сервера",
+    "schema": "ServerMessage",
+    "value": {
+      "version": 1,
+      "type": "pong",
+      "payload": {
+        "serverTime": "2026-11-17T00:00:00Z"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "Короткий пароль",
+    "schema": "Credentials",
+    "value": {
+      "login": "alice",
+      "password": "123"
+    },
+    "valid": false
+  },
+  {
+    "name": "Внешний номер события запрещён",
+    "schema": "ServerMessage",
+    "value": {
+      "version": 1,
+      "type": "rooms.snapshot",
+      "eventId": 50,
+      "payload": {
+        "viewRevision": "1",
+        "view": {
+          "rooms": []
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "Тайная роль отсутствует в публичном DTO",
+    "schema": "RoomView",
+    "value": {
+      "room": {
+        "id": "room-1",
+        "name": "Вранский лес",
+        "script": "trouble_brewing",
+        "mode": "program_storyteller",
+        "creator": {
+          "id": "user-1",
+          "login": "alice"
+        },
+        "capacity": 10,
+        "playerCount": 1,
+        "state": "waiting",
+        "joinable": true
+      },
+      "participants": [
+        {
+          "user": {
+            "id": "user-1",
+            "login": "alice"
+          },
+          "seat": 0,
+          "ready": false,
+          "connected": true,
+          "publicAlive": true,
+          "actualRoleId": "imp"
+        }
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "Гримуар отсутствует в публичном DTO",
+    "schema": "RoomView",
+    "value": {
+      "room": {
+        "id": "room-1",
+        "name": "Вранский лес",
+        "script": "trouble_brewing",
+        "mode": "program_storyteller",
+        "creator": {
+          "id": "user-1",
+          "login": "alice"
+        },
+        "capacity": 10,
+        "playerCount": 1,
+        "state": "waiting",
+        "joinable": true
+      },
+      "participants": [
+        {
+          "user": {
+            "id": "user-1",
+            "login": "alice"
+          },
+          "seat": 0,
+          "ready": false,
+          "connected": true,
+          "publicAlive": true
+        }
+      ],
+      "grimoire": {
+        "players": []
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "Неизвестная команда",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "game.kill",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {}
+    },
+    "valid": false
+  },
+  {
+    "name": "Неподдерживаемая версия",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 2,
+      "type": "ping",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {}
+    },
+    "valid": false
+  },
+  {
+    "name": "requestId обязателен",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "ping",
+      "payload": {}
+    },
+    "valid": false
+  },
+  {
+    "name": "Идентификатор команды UUID",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "ping",
+      "requestId": "not-a-uuid",
+      "payload": {}
+    },
+    "valid": false
+  },
+  {
+    "name": "Серверный ответ не клиентская команда",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "ack",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {}
+    },
+    "valid": false
+  },
+  {
+    "name": "Чужое тело команды запрещено",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "ping",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {
+        "role": "imp"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "Числовая ревизия запрещена",
+    "schema": "ServerMessage",
+    "value": {
+      "version": 1,
+      "type": "rooms.snapshot",
+      "payload": {
+        "viewRevision": 100,
+        "view": {
+          "rooms": []
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "Отрицательная ревизия запрещена",
+    "schema": "ServerMessage",
+    "value": {
+      "version": 1,
+      "type": "rooms.snapshot",
+      "payload": {
+        "viewRevision": "-1",
+        "view": {
+          "rooms": []
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "Граница рассадки",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "room.seat",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {
+        "roomId": "room-1",
+        "seat": 20
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "Пустое сообщение",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "conversation.message.send",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": {
+        "conversationId": "conversation-1",
+        "text": ""
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "Примитив вместо пустого payload",
+    "schema": "ClientMessage",
+    "value": {
+      "version": 1,
+      "type": "ping",
+      "requestId": "123e4567-e89b-42d3-a456-426614174000",
+      "payload": 123
+    },
+    "valid": false
+  },
+  {
+    "name": "Некорректное время сервера",
+    "schema": "ServerMessage",
+    "value": {
+      "version": 1,
+      "type": "pong",
+      "payload": {
+        "serverTime": "2026-99-99TgarbageZ"
+      }
+    },
+    "valid": false
+  }
+]

@@ -25,3 +25,30 @@ ESLint 9 выбран из-за заявленной совместимости 
 зависимости статистика проверяется заново. Числа выше — снимок указанного
 периода, а не гарантия безопасности пакета. Условия выбора описаны
 в `apps/web/AGENTS.md`.
+
+## Инструменты проверки первого этапа
+
+`ajv` **8.20.0** добавлен только в корневые `devDependencies`: он проверяет
+JSON Schema 2020-12 и схемы OpenAPI, в клиентский bundle не входит.
+Уже подключённые Next.js/TypeScript и GORM не заменяют валидатор схем;
+собственная реализация JSON Schema не нужна.
+
+Проверено 17 ноября 2026 года: **527 553 817** скачиваний за 9–15 ноября
+по [npm Downloads API](https://api.npmjs.org/downloads/point/last-week/ajv).
+Версия и [официальный репозиторий](https://github.com/ajv-validator/ajv)
+подтверждены метаданными npm; возможности сверены с
+[документацией Ajv](https://ajv.js.org/json-schema.html).
+Точная версия закреплена в `package.json` и `pnpm-lock.yaml`.
+
+`ajv-formats` **3.0.1** — корневое дополнение Ajv для проверки `date-time`
+по RFC 3339. Оно заменяет недостаточную проверку даты регулярным выражением.
+Официальные метаданные npm подтвердили версию и
+[репозиторий](https://github.com/ajv-validator/ajv-formats).
+На 17 ноября 2026 года [npm Downloads API](https://api.npmjs.org/downloads/point/last-week/ajv-formats)
+показал **211 076 768** скачиваний за 10–16 ноября. Пакет не входит в bundle
+клиента; точная версия сохранена в lockfile.
+
+Каталог правил и smoke-проверка используют встроенные средства Node.js.
+Миграции переиспользуют GORM и PostgreSQL driver; достаточность проверена по
+[документации миграций](https://gorm.io/docs/migration.html) и
+[транзакций](https://gorm.io/docs/transactions.html).
