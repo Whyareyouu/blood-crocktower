@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://blood.local/contracts/protocol-v1.schema.json",
-  "title": "Сетевые DTO и WebSocket v1 (проект этапов 2–3)",
-  "description": "Замкнутые проекции без Гримуара; транспорт и игровые действия ещё не реализованы.",
+  "title": "Сетевые DTO и WebSocket v1",
+  "description": "Замкнутые проекции без Гримуара. На этапе 2 реализованы аккаунты, собственное членство и защищённый WebSocket с ping/pong; комнаты и чаты запланированы.",
   "oneOf": [
     {
       "$ref": "#/$defs/ClientMessage"
@@ -42,7 +42,7 @@
         },
         "stage": {
           "type": "string",
-          "const": "bootstrap"
+          "const": "accounts"
         }
       }
     },

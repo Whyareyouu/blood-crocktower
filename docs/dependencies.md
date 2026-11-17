@@ -52,3 +52,25 @@ JSON Schema 2020-12 и схемы OpenAPI, в клиентский bundle не �
 Миграции переиспользуют GORM и PostgreSQL driver; достаточность проверена по
 [документации миграций](https://gorm.io/docs/migration.html) и
 [транзакций](https://gorm.io/docs/transactions.html).
+
+## Аккаунты и безопасность — этап 2
+
+Проверено 17 ноября 2026 года: существующих аккаунтов, транспорта WebSocket
+и политики доступа в проекте не было. Переиспользованы GORM, DTO,
+генератор контрактов и React; новых прямых npm-зависимостей нет.
+Для Go закреплены версии в `go.mod`/`go.sum`:
+
+| Библиотека | Версия | Назначение и первичная документация |
+| --- | --- | --- |
+| `github.com/alexedwards/argon2id` | 1.0.0 | [Готовое создание и сравнение PHC-хешей](https://pkg.go.dev/github.com/alexedwards/argon2id); свой парсер хеша не нужен |
+| `golang.org/x/crypto` | 0.53.0 | [Argon2id](https://pkg.go.dev/golang.org/x/crypto/argon2), транзитивная реализация; версия совместима с Go 1.25 |
+| `github.com/coder/websocket` | 1.8.15 | [Upgrade, Origin, кадры, предел размера и закрытие](https://pkg.go.dev/github.com/coder/websocket@v1.8.15); свой WebSocket-протокол не пишется |
+| `golang.org/x/time` | 0.14.0 | [Готовый token bucket](https://pkg.go.dev/golang.org/x/time/rate) для HTTP, аккаунтов и команд |
+| `github.com/santhosh-tekuri/jsonschema/v6` | 6.0.2 | [Валидация JSON Schema 2020-12](https://pkg.go.dev/github.com/santhosh-tekuri/jsonschema/v6); переиспользована существующая схема |
+
+Argon2id настроен по второму варианту [RFC 9106, раздел 4](https://www.rfc-editor.org/rfc/rfc9106.html#section-4):
+64 МиБ, 3 прохода, 4 потока, соль 16 байт, ключ 32 байта. Одновременно
+вычисляются максимум два хеша. Защита HTTP переиспользует
+[`http.CrossOriginProtection`](https://pkg.go.dev/net/http#CrossOriginProtection)
+из Go 1.25 и дополняется сессионным CSRF-токеном, точным `PUBLIC_ORIGIN`
+и `SameSite=Strict`. Случайные токены создаются стандартным `crypto/rand`.

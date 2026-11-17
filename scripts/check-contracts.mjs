@@ -72,7 +72,7 @@ for (const [name, node] of Object.entries(definitions)) {
 ts = ts.trimEnd() + "\n";
 const formatted = spawnSync("gofmt", [], { input: go, encoding: "utf8", windowsHide: true });
 assert.equal(formatted.status, 0, formatted.stderr || "Не удалось запустить gofmt");
-for (const [path, content] of [["apps/web/lib/contracts/generated.ts", ts], ["apps/api/internal/contracts/generated.go", formatted.stdout]]) {
+for (const [path, content] of [["apps/web/lib/contracts/generated.ts", ts], ["apps/api/internal/contracts/generated.go", formatted.stdout], ["apps/api/internal/contracts/protocol.schema.json", JSON.stringify(schema, null, 2) + "\n"]]) {
   const location = new URL(path, root);
   if (process.argv.includes("--write")) {
     mkdirSync(dirname(fileURLToPath(location)), { recursive: true });
@@ -123,7 +123,7 @@ for (const [path, item] of Object.entries(api.paths)) {
     assert.ok(['implemented', 'planned'].includes(operation['x-implementation-status']));
     if (operation['x-implementation-status'] === 'implemented') {
       implemented++;
-      assert.ok(['/health/live', '/health/ready', '/api/v1/status'].includes(path));
+      assert.ok(['/health/live', '/health/ready', '/api/v1/status', '/api/v1/auth/csrf', '/api/v1/auth/register', '/api/v1/auth/login', '/api/v1/auth/session', '/api/v1/auth/logout', '/api/v1/users/me/rooms', '/api/v1/ws'].includes(path));
     }
     assert.ok(Object.keys(operation.responses).length);
     if (['post', 'put', 'delete', 'patch'].includes(method)) {
@@ -131,7 +131,7 @@ for (const [path, item] of Object.entries(api.paths)) {
     }
   }
 }
-assert.equal(implemented, 3);
+assert.equal(implemented, 10);
 
 for (const fixture of read('docs/contracts/fixtures.json')) {
   const validate = ajv.getSchema(`${schema.$id}#/$defs/${fixture.schema}`);

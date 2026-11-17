@@ -19,7 +19,7 @@ for (const path of ["/health/live", "/health/ready"]) {
   assert.deepEqual(await response.json(), { status: "ok" });
 }
 
-const expectedStatus = { service: "blood-api", stage: "bootstrap" };
+const expectedStatus = { service: "blood-api", stage: "accounts" };
 assert.deepEqual(await (await get(api, "/api/v1/status")).json(), expectedStatus);
 assert.deepEqual(await (await get(web, "/api/v1/status")).json(), expectedStatus);
 

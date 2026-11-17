@@ -5,7 +5,7 @@ export interface Health {
 
 export interface Status {
   service: "blood-api";
-  stage: "bootstrap";
+  stage: "accounts";
 }
 
 export type ErrorCode = "invalid_request" | "unauthenticated" | "forbidden" | "not_found" | "conflict" | "rate_limited" | "unsupported_version" | "internal_error";
