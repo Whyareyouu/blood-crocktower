@@ -7,7 +7,7 @@ import (
 
 func configure(t *testing.T) {
 	t.Helper()
-	for _, key := range []string{"API_PORT", "DB_HOST", "DB_PORT", "DB_NAME", "DB_USER", "DB_SSLMODE"} {
+	for _, key := range []string{"API_PORT", "DB_HOST", "DB_PORT", "DB_NAME", "DB_USER", "DB_SSLMODE", "PUBLIC_ORIGIN"} {
 		t.Setenv(key, "")
 	}
 	t.Setenv("DB_PASSWORD", "local-test")
@@ -35,6 +35,8 @@ func TestInvalidConfiguration(t *testing.T) {
 	for _, tc := range []struct{ key, value string }{
 		{"DB_PASSWORD", ""}, {"API_PORT", "0"}, {"DB_PORT", "65536"},
 		{"DB_PORT", "abc"}, {"DB_SSLMODE", "unexpected"},
+		{"PUBLIC_ORIGIN", "https://example.com/"}, {"PUBLIC_ORIGIN", "http://example.com"},
+		{"PUBLIC_ORIGIN", "https://user@example.com"}, {"PUBLIC_ORIGIN", "https://*.example.com"},
 	} {
 		t.Run(tc.key+tc.value, func(t *testing.T) {
 			configure(t)
@@ -43,5 +45,14 @@ func TestInvalidConfiguration(t *testing.T) {
 				t.Fatal("недопустимая конфигурация принята")
 			}
 		})
+	}
+}
+
+func TestHTTPSRequiresSecureCookie(t *testing.T) {
+	configure(t)
+	t.Setenv("PUBLIC_ORIGIN", "https://game.example.com")
+	cfg, err := Load()
+	if err != nil || !cfg.CookieSecure {
+		t.Fatal("HTTPS должен включать Secure cookie")
 	}
 }

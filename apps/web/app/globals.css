@@ -12,5 +12,14 @@ section p { color: var(--muted); }
 .status span { color: var(--accent); margin-right: 8px; }
 button { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; padding: 0; border: 0; background: none; color: var(--accent); font: inherit; text-decoration: underline; text-underline-offset: 5px; cursor: pointer; }
 button:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
+button:disabled { opacity: .6; cursor: wait; }
+.account-modes { display: flex; gap: 24px; margin-top: 16px; }
+.account-modes [aria-pressed="true"] { color: var(--text); text-decoration-thickness: 3px; }
+label { display: block; margin: 18px 0 6px; }
+input { display: block; width: min(100%, 420px); min-height: 44px; padding: 10px 12px; border: 1px solid var(--muted); border-radius: 4px; background: var(--background); color: var(--text); font: inherit; }
+input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.field-help { margin: 8px 0 12px; font-size: 13px; }
+.error { color: #ffb5a5; }
+h2:focus { outline: 2px solid var(--accent); outline-offset: 4px; }
 footer { color: var(--muted); font: 13px/1.7 system-ui, sans-serif; }
 @media (max-width: 480px) { main { width: calc(100% - 32px); padding-top: 40px; } section { margin: 32px 0; padding: 20px; } }

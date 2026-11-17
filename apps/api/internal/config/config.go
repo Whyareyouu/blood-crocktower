@@ -6,16 +6,19 @@ import (
 	"net/url"
 	"os"
 	"strconv"
+	"strings"
 )
 
 type Config struct {
-	APIPort    int
-	DBHost     string
-	DBPort     int
-	DBName     string
-	DBUser     string
-	DBPassword string
-	DBSSLMode  string
+	APIPort      int
+	DBHost       string
+	DBPort       int
+	DBName       string
+	DBUser       string
+	DBPassword   string
+	DBSSLMode    string
+	PublicOrigin string
+	CookieSecure bool
 }
 
 func Load() (Config, error) {
@@ -31,10 +34,19 @@ func Load() (Config, error) {
 		APIPort: apiPort, DBHost: value("DB_HOST", "127.0.0.1"), DBPort: dbPort,
 		DBName: value("DB_NAME", "blood"), DBUser: value("DB_USER", "blood"),
 		DBPassword: os.Getenv("DB_PASSWORD"), DBSSLMode: value("DB_SSLMODE", "disable"),
+		PublicOrigin: value("PUBLIC_ORIGIN", "http://localhost:3000"),
 	}
 	if cfg.DBPassword == "" {
 		return Config{}, fmt.Errorf("не задана переменная DB_PASSWORD")
 	}
+	origin, err := url.Parse(cfg.PublicOrigin)
+	if err != nil || origin.Host == "" || origin.User != nil || origin.RawQuery != "" || origin.Fragment != "" || origin.Path != "" || (origin.Scheme != "http" && origin.Scheme != "https") || strings.ContainsAny(cfg.PublicOrigin, "*\\") {
+		return Config{}, fmt.Errorf("PUBLIC_ORIGIN должен содержать точный origin без пути")
+	}
+	if origin.Scheme != "https" && origin.Hostname() != "localhost" && !net.ParseIP(origin.Hostname()).IsLoopback() {
+		return Config{}, fmt.Errorf("для публичного PUBLIC_ORIGIN необходим HTTPS")
+	}
+	cfg.CookieSecure = origin.Scheme == "https"
 	switch cfg.DBSSLMode {
 	case "disable", "require", "verify-ca", "verify-full":
 	default:

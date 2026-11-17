@@ -8,6 +8,8 @@ import (
 	"testing"
 	"time"
 
+	"blood/apps/api/internal/access"
+	"blood/apps/api/internal/auth"
 	"blood/apps/api/internal/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -15,7 +17,7 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-// Каждый тест работает только со своей таблицей журнала, в том числе в CI.
+// Каждый тест работает только со своими таблицами, в том числе в CI.
 // Существующая схема приложения и её данные не изменяются.
 func isolatedDatabase(t *testing.T) *gorm.DB {
 	t.Helper()
@@ -38,7 +40,7 @@ func isolatedDatabase(t *testing.T) *gorm.DB {
 	t.Cleanup(func() {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
-		if err := db.WithContext(ctx).Migrator().DropTable(&SchemaMigration{}); err != nil {
+		if err := db.WithContext(ctx).Migrator().DropTable(&access.ConversationMember{}, &access.Conversation{}, &access.Membership{}, &access.Room{}, &auth.Session{}, &auth.User{}, &SchemaMigration{}); err != nil {
 			t.Errorf("не удалось удалить временную таблицу: %v", err)
 		}
 		pool, err := db.DB()
@@ -60,7 +62,7 @@ func TestMigrationAndReadiness(t *testing.T) {
 		t.Fatal(err)
 	}
 	var first SchemaMigration
-	if err := db.WithContext(ctx).Take(&first).Error; err != nil {
+	if err := db.WithContext(ctx).Order("version").Take(&first).Error; err != nil {
 		t.Fatal(err)
 	}
 	if err := Migrate(ctx, db); err != nil {
@@ -70,10 +72,10 @@ func TestMigrationAndReadiness(t *testing.T) {
 		t.Fatal(err)
 	}
 	var migrations []SchemaMigration
-	if err := db.WithContext(ctx).Find(&migrations).Error; err != nil {
+	if err := db.WithContext(ctx).Order("version").Find(&migrations).Error; err != nil {
 		t.Fatal(err)
 	}
-	if len(migrations) != 1 || migrations[0].Version != CurrentVersion || !migrations[0].AppliedAt.Equal(first.AppliedAt) {
+	if len(migrations) != CurrentVersion || migrations[len(migrations)-1].Version != CurrentVersion || !migrations[0].AppliedAt.Equal(first.AppliedAt) {
 		t.Fatalf("повторная миграция изменила журнал: %+v", migrations)
 	}
 }
@@ -105,7 +107,7 @@ func TestNewerSchemaIsRejected(t *testing.T) {
 		t.Fatal("старый migrator не должен принимать более новую схему")
 	}
 	var count int64
-	if err := db.WithContext(ctx).Model(&SchemaMigration{}).Count(&count).Error; err != nil || count != 2 {
+	if err := db.WithContext(ctx).Model(&SchemaMigration{}).Count(&count).Error; err != nil || count != CurrentVersion+1 {
 		t.Fatalf("журнал новой версии изменён: count=%d, err=%v", count, err)
 	}
 }
@@ -122,5 +124,29 @@ func TestCanceledMigrationDoesNotCreateSchema(t *testing.T) {
 	}
 	if err := Migrate(context.Background(), db); err != nil {
 		t.Fatalf("повторный запуск после отмены должен работать: %v", err)
+	}
+}
+
+func TestUpgradeFromStageOnePreservesJournal(t *testing.T) {
+	db := isolatedDatabase(t)
+	if err := db.AutoMigrate(&SchemaMigration{}); err != nil {
+		t.Fatal(err)
+	}
+	first := SchemaMigration{Version: 1, AppliedAt: time.Now().UTC().Truncate(time.Microsecond)}
+	if err := db.Create(&first).Error; err != nil {
+		t.Fatal(err)
+	}
+	if err := Migrate(context.Background(), db); err != nil {
+		t.Fatal(err)
+	}
+	var saved SchemaMigration
+	if err := db.Where(&SchemaMigration{Version: 1}).Take(&saved).Error; err != nil {
+		t.Fatal(err)
+	}
+	if !saved.AppliedAt.Equal(first.AppliedAt) || !db.Migrator().HasTable(&auth.Session{}) || !db.Migrator().HasTable(&access.Membership{}) {
+		t.Fatal("обновление потеряло журнал или не создало таблицы")
+	}
+	if err := Ready(db)(context.Background()); err != nil {
+		t.Fatal(err)
 	}
 }

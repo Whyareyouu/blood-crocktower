@@ -1,3 +1,5 @@
+import Account from "./account";
+
 export const dynamic = "force-dynamic";
 
 async function isAPIReady(): Promise<boolean> {
@@ -17,12 +19,13 @@ export default async function Home() {
 
   return (
     <main>
-      <p className="eyebrow">Вранский Лес · Подготовка проекта</p>
+      <p className="eyebrow">Вранский Лес · Добро пожаловать</p>
       <h1>Кровь на<br />часовой башне</h1>
       <p className="intro">Каждая история начинается до первого удара часов.</p>
+      <Account />
       <section aria-labelledby="status-title">
-        <h2 id="status-title">Основа будущей игры</h2>
-        <p>Каркас приложения подготовлен. Комнаты и игровые механики появятся на следующих этапах.</p>
+        <h2 id="status-title">Состояние приложения</h2>
+        <p>Вход и регистрация доступны. Комнаты и игровые механики появятся на следующих этапах.</p>
         <p className="status"><span aria-hidden="true">{ready ? "●" : "○"}</span> {ready ? "API и база данных готовы" : "API или база данных пока недоступны"}</p>
         <form action="/" method="get">
           <button type="submit">Обновить состояние <span aria-hidden="true">↗</span></button>

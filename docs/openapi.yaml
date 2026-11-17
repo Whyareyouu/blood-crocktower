@@ -3,7 +3,7 @@
   "info": {
     "title": "Кровь на часовой башне — REST API",
     "version": "1.0.0-draft",
-    "description": "Реализованы только 3 диагностических GET. Остальные операции — утверждаемый контракт следующих этапов, а не доступные handlers. Все DTO задаются protocol.schema.json. До входа CSRF-токен выдаётся GET /auth/csrf; после входа токен связан с сессией."
+    "description": "Реализованы диагностика, аккаунты, CSRF, собственное членство в комнатах и защищённый WebSocket с ping/pong. Управление комнатами, подписки и чаты остаются planned. После входа CSRF-токен связан с сессией."
   },
   "servers": [
     {
@@ -27,6 +27,24 @@
                 }
               }
             }
+          },
+          "429": {
+            "description": "Превышена частота запросов",
+            "headers": {
+              "Retry-After": {
+                "description": "Задержка до повторной попытки, секунды",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
           }
         }
       }
@@ -44,6 +62,24 @@
               "application/json": {
                 "schema": {
                   "$ref": "./contracts/protocol.schema.json#/$defs/Health"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Превышена частота запросов",
+            "headers": {
+              "Retry-After": {
+                "description": "Задержка до повторной попытки, секунды",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
                 }
               }
             }
@@ -77,6 +113,24 @@
                 }
               }
             }
+          },
+          "429": {
+            "description": "Превышена частота запросов",
+            "headers": {
+              "Retry-After": {
+                "description": "Задержка до повторной попытки, секунды",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
           }
         }
       }
@@ -85,7 +139,7 @@
       "post": {
         "operationId": "register",
         "summary": "Создать аккаунт и сессию",
-        "x-implementation-status": "planned",
+        "x-implementation-status": "implemented",
         "security": [],
         "responses": {
           "201": {
@@ -99,9 +153,27 @@
             },
             "headers": {
               "Set-Cookie": {
-                "description": "Предварительная cookie CSRF либо новая HttpOnly cookie сессии. Secure при HTTPS; SameSite=Lax.",
+                "description": "HttpOnly; Secure при HTTPS; SameSite=Strict; Path=/; без Domain.",
                 "schema": {
                   "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Превышена частота запросов",
+            "headers": {
+              "Retry-After": {
+                "description": "Задержка до повторной попытки, секунды",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
                 }
               }
             }
@@ -145,7 +217,7 @@
       "post": {
         "operationId": "login",
         "summary": "Войти и заменить идентификатор сессии",
-        "x-implementation-status": "planned",
+        "x-implementation-status": "implemented",
         "security": [],
         "responses": {
           "200": {
@@ -159,9 +231,27 @@
             },
             "headers": {
               "Set-Cookie": {
-                "description": "Предварительная cookie CSRF либо новая HttpOnly cookie сессии. Secure при HTTPS; SameSite=Lax.",
+                "description": "HttpOnly; Secure при HTTPS; SameSite=Strict; Path=/; без Domain.",
                 "schema": {
                   "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Превышена частота запросов",
+            "headers": {
+              "Retry-After": {
+                "description": "Задержка до повторной попытки, секунды",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
                 }
               }
             }
@@ -205,7 +295,7 @@
       "get": {
         "operationId": "getSession",
         "summary": "Восстановить текущую сессию",
-        "x-implementation-status": "planned",
+        "x-implementation-status": "implemented",
         "security": [
           {
             "sessionCookie": []
@@ -218,6 +308,24 @@
               "application/json": {
                 "schema": {
                   "$ref": "./contracts/protocol.schema.json#/$defs/Session"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Превышена частота запросов",
+            "headers": {
+              "Retry-After": {
+                "description": "Задержка до повторной попытки, секунды",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
                 }
               }
             }
@@ -239,7 +347,7 @@
       "post": {
         "operationId": "logout",
         "summary": "Завершить сессию",
-        "x-implementation-status": "planned",
+        "x-implementation-status": "implemented",
         "security": [
           {
             "sessionCookie": []
@@ -248,6 +356,24 @@
         "responses": {
           "204": {
             "description": "Завершить сессию"
+          },
+          "429": {
+            "description": "Превышена частота запросов",
+            "headers": {
+              "Retry-After": {
+                "description": "Задержка до повторной попытки, секунды",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
           },
           "default": {
             "description": "Ошибка; существование скрытых данных не раскрывается",
@@ -906,7 +1032,7 @@
       "get": {
         "operationId": "connectWebSocket",
         "summary": "Установить WebSocket v1; cookie, Origin и подпротокол blood.v1 обязательны",
-        "x-implementation-status": "planned",
+        "x-implementation-status": "implemented",
         "security": [
           {
             "sessionCookie": []
@@ -945,6 +1071,24 @@
                 }
               }
             }
+          },
+          "429": {
+            "description": "Превышена частота запросов",
+            "headers": {
+              "Retry-After": {
+                "description": "Задержка до повторной попытки, секунды",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -975,7 +1119,7 @@
       "get": {
         "operationId": "getCSRFToken",
         "summary": "Выдать предварительный CSRF-токен с привязкой к cookie",
-        "x-implementation-status": "planned",
+        "x-implementation-status": "implemented",
         "security": [],
         "responses": {
           "200": {
@@ -989,15 +1133,85 @@
             },
             "headers": {
               "Set-Cookie": {
-                "description": "Предварительная cookie CSRF либо новая HttpOnly cookie сессии. Secure при HTTPS; SameSite=Lax.",
+                "description": "HttpOnly; Secure при HTTPS; SameSite=Strict; Path=/; без Domain.",
                 "schema": {
                   "type": "string"
                 }
               }
             }
           },
+          "429": {
+            "description": "Превышена частота запросов",
+            "headers": {
+              "Retry-After": {
+                "description": "Задержка до повторной попытки, секунды",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          },
           "default": {
             "description": "Ошибка; существование скрытых данных не раскрывается",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/me/rooms": {
+      "get": {
+        "operationId": "getMyRooms",
+        "summary": "Восстановить собственное членство в комнатах",
+        "x-implementation-status": "implemented",
+        "security": [
+          {
+            "sessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Только комнаты текущего пользователя",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/RoomList"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Превышена частота запросов",
+            "headers": {
+              "Retry-After": {
+                "description": "Задержка до повторной попытки, секунды",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./contracts/protocol.schema.json#/$defs/APIError"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка авторизации или сервиса",
             "content": {
               "application/json": {
                 "schema": {
@@ -1016,7 +1230,7 @@
         "type": "apiKey",
         "in": "cookie",
         "name": "blood_session",
-        "description": "HttpOnly; Secure в HTTPS; SameSite=Lax; пароль и token не передаются через query или WebSocket."
+        "description": "HttpOnly; Secure при HTTPS (обязателен для публичного сайта); SameSite=Strict; Path=/; 30 суток. В БД хранится SHA-256 токена. Токен запрещён в query и WebSocket-командах."
       }
     }
   }

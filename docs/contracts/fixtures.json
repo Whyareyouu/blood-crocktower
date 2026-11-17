@@ -12,7 +12,7 @@
     "schema": "Status",
     "value": {
       "service": "blood-api",
-      "stage": "bootstrap"
+      "stage": "accounts"
     },
     "valid": true
   },

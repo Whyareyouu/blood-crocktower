@@ -1,0 +1,1162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blood.local/contracts/protocol-v1.schema.json",
+  "title": "Сетевые DTO и WebSocket v1",
+  "description": "Замкнутые проекции без Гримуара. На этапе 2 реализованы аккаунты, собственное членство и защищённый WebSocket с ping/pong; комнаты и чаты запланированы.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/ClientMessage"
+    },
+    {
+      "$ref": "#/$defs/ServerMessage"
+    }
+  ],
+  "$defs": {
+    "Health": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "ok",
+            "not_ready"
+          ]
+        }
+      }
+    },
+    "Status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "service",
+        "stage"
+      ],
+      "properties": {
+        "service": {
+          "type": "string",
+          "const": "blood-api"
+        },
+        "stage": {
+          "type": "string",
+          "const": "accounts"
+        }
+      }
+    },
+    "ErrorCode": {
+      "type": "string",
+      "enum": [
+        "invalid_request",
+        "unauthenticated",
+        "forbidden",
+        "not_found",
+        "conflict",
+        "rate_limited",
+        "unsupported_version",
+        "internal_error"
+      ]
+    },
+    "APIError": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/ErrorCode"
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "login"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "login": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32
+        }
+      }
+    },
+    "Credentials": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "login",
+        "password"
+      ],
+      "properties": {
+        "login": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "password": {
+          "type": "string",
+          "minLength": 12,
+          "maxLength": 128
+        }
+      }
+    },
+    "Session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "user",
+        "csrfToken"
+      ],
+      "properties": {
+        "user": {
+          "$ref": "#/$defs/User"
+        },
+        "csrfToken": {
+          "type": "string",
+          "minLength": 32,
+          "maxLength": 256
+        }
+      }
+    },
+    "Script": {
+      "type": "string",
+      "enum": [
+        "trouble_brewing",
+        "bad_moon_rising",
+        "sects_and_violets"
+      ]
+    },
+    "Mode": {
+      "type": "string",
+      "enum": [
+        "human_storyteller",
+        "program_storyteller"
+      ]
+    },
+    "RoomState": {
+      "type": "string",
+      "enum": [
+        "waiting",
+        "running",
+        "paused",
+        "finished"
+      ]
+    },
+    "CreateRoom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "script",
+        "mode",
+        "capacity"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "script": {
+          "$ref": "#/$defs/Script"
+        },
+        "mode": {
+          "$ref": "#/$defs/Mode"
+        },
+        "capacity": {
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 20
+        }
+      }
+    },
+    "RoomSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "script",
+        "mode",
+        "creator",
+        "capacity",
+        "playerCount",
+        "state",
+        "joinable"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "script": {
+          "$ref": "#/$defs/Script"
+        },
+        "mode": {
+          "$ref": "#/$defs/Mode"
+        },
+        "creator": {
+          "$ref": "#/$defs/User"
+        },
+        "capacity": {
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 20
+        },
+        "playerCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20
+        },
+        "state": {
+          "$ref": "#/$defs/RoomState"
+        },
+        "joinable": {
+          "type": "boolean"
+        }
+      }
+    },
+    "RoomList": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rooms"
+      ],
+      "properties": {
+        "rooms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RoomSummary"
+          }
+        }
+      }
+    },
+    "Participant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "user",
+        "ready",
+        "connected",
+        "publicAlive"
+      ],
+      "properties": {
+        "user": {
+          "$ref": "#/$defs/User"
+        },
+        "seat": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 19
+        },
+        "ready": {
+          "type": "boolean"
+        },
+        "connected": {
+          "type": "boolean"
+        },
+        "publicAlive": {
+          "type": "boolean"
+        },
+        "travellerRole": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        }
+      }
+    },
+    "RoomView": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "room",
+        "participants"
+      ],
+      "properties": {
+        "room": {
+          "$ref": "#/$defs/RoomSummary"
+        },
+        "participants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Participant"
+          }
+        },
+        "storytellerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        }
+      }
+    },
+    "SelfView": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "userId",
+        "information"
+      ],
+      "properties": {
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "shownRoleId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "shownAlignment": {
+          "type": "string",
+          "enum": [
+            "good",
+            "evil"
+          ]
+        },
+        "information": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        }
+      }
+    },
+    "Message": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "sender",
+        "text",
+        "sentAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "sender": {
+          "$ref": "#/$defs/User"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "sentAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "SendMessage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      }
+    },
+    "MessageList": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "messages"
+      ],
+      "properties": {
+        "messages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Message"
+          }
+        },
+        "nextCursor": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    },
+    "Conversation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "roomId",
+        "members"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "roomId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/User"
+          }
+        }
+      }
+    },
+    "ConversationList": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conversations"
+      ],
+      "properties": {
+        "conversations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Conversation"
+          }
+        }
+      }
+    },
+    "CreateConversation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "participantId"
+      ],
+      "properties": {
+        "participantId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        }
+      }
+    },
+    "SubscribeRoomsPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {}
+    },
+    "SubscribeRoomPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "roomId"
+      ],
+      "properties": {
+        "roomId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        }
+      }
+    },
+    "SubscribeConversationPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conversationId"
+      ],
+      "properties": {
+        "conversationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        }
+      }
+    },
+    "SetReadyPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "roomId",
+        "ready"
+      ],
+      "properties": {
+        "roomId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "ready": {
+          "type": "boolean"
+        }
+      }
+    },
+    "SetSeatPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "roomId",
+        "seat"
+      ],
+      "properties": {
+        "roomId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "seat": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 19
+        }
+      }
+    },
+    "SendRoomMessagePayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "roomId",
+        "text"
+      ],
+      "properties": {
+        "roomId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      }
+    },
+    "SendPrivateMessagePayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conversationId",
+        "text"
+      ],
+      "properties": {
+        "conversationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      }
+    },
+    "PingPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {}
+    },
+    "AckPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {}
+    },
+    "RoomSnapshotPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "roomId",
+        "viewRevision",
+        "view"
+      ],
+      "properties": {
+        "roomId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "viewRevision": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "view": {
+          "$ref": "#/$defs/RoomView"
+        }
+      }
+    },
+    "SelfSnapshotPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "roomId",
+        "viewRevision",
+        "view"
+      ],
+      "properties": {
+        "roomId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "viewRevision": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "view": {
+          "$ref": "#/$defs/SelfView"
+        }
+      }
+    },
+    "RoomsSnapshotPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "viewRevision",
+        "view"
+      ],
+      "properties": {
+        "viewRevision": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "view": {
+          "$ref": "#/$defs/RoomList"
+        }
+      }
+    },
+    "ConversationSnapshotPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conversationId",
+        "viewRevision",
+        "view"
+      ],
+      "properties": {
+        "conversationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "viewRevision": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "view": {
+          "$ref": "#/$defs/MessageList"
+        }
+      }
+    },
+    "PongPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "serverTime"
+      ],
+      "properties": {
+        "serverTime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "SubscribeRooms": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "type",
+        "requestId",
+        "payload"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "rooms.subscribe"
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "payload": {
+          "$ref": "#/$defs/SubscribeRoomsPayload"
+        }
+      }
+    },
+    "SubscribeRoom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "type",
+        "requestId",
+        "payload"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "room.subscribe"
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "payload": {
+          "$ref": "#/$defs/SubscribeRoomPayload"
+        }
+      }
+    },
+    "SubscribeConversation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "type",
+        "requestId",
+        "payload"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "conversation.subscribe"
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "payload": {
+          "$ref": "#/$defs/SubscribeConversationPayload"
+        }
+      }
+    },
+    "SetReady": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "type",
+        "requestId",
+        "payload"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "room.ready"
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "payload": {
+          "$ref": "#/$defs/SetReadyPayload"
+        }
+      }
+    },
+    "SetSeat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "type",
+        "requestId",
+        "payload"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "room.seat"
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "payload": {
+          "$ref": "#/$defs/SetSeatPayload"
+        }
+      }
+    },
+    "SendRoomMessage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "type",
+        "requestId",
+        "payload"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "room.message.send"
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "payload": {
+          "$ref": "#/$defs/SendRoomMessagePayload"
+        }
+      }
+    },
+    "SendPrivateMessage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "type",
+        "requestId",
+        "payload"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "conversation.message.send"
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "payload": {
+          "$ref": "#/$defs/SendPrivateMessagePayload"
+        }
+      }
+    },
+    "Ping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "type",
+        "requestId",
+        "payload"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "ping"
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "payload": {
+          "$ref": "#/$defs/PingPayload"
+        }
+      }
+    },
+    "Ack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "type",
+        "requestId",
+        "payload"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "ack"
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "payload": {
+          "$ref": "#/$defs/AckPayload"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "type",
+        "payload"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "error"
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "payload": {
+          "$ref": "#/$defs/APIError"
+        }
+      }
+    },
+    "RoomsSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "type",
+        "payload"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "rooms.snapshot"
+        },
+        "payload": {
+          "$ref": "#/$defs/RoomsSnapshotPayload"
+        }
+      }
+    },
+    "RoomSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "type",
+        "payload"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "room.snapshot"
+        },
+        "payload": {
+          "$ref": "#/$defs/RoomSnapshotPayload"
+        }
+      }
+    },
+    "SelfSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "type",
+        "payload"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "self.snapshot"
+        },
+        "payload": {
+          "$ref": "#/$defs/SelfSnapshotPayload"
+        }
+      }
+    },
+    "ConversationSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "type",
+        "payload"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "conversation.snapshot"
+        },
+        "payload": {
+          "$ref": "#/$defs/ConversationSnapshotPayload"
+        }
+      }
+    },
+    "Pong": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "type",
+        "payload"
+      ],
+      "properties": {
+        "version": {
+          "type": "integer",
+          "const": 1
+        },
+        "type": {
+          "type": "string",
+          "const": "pong"
+        },
+        "payload": {
+          "$ref": "#/$defs/PongPayload"
+        }
+      }
+    },
+    "ClientMessage": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/SubscribeRooms"
+        },
+        {
+          "$ref": "#/$defs/SubscribeRoom"
+        },
+        {
+          "$ref": "#/$defs/SubscribeConversation"
+        },
+        {
+          "$ref": "#/$defs/SetReady"
+        },
+        {
+          "$ref": "#/$defs/SetSeat"
+        },
+        {
+          "$ref": "#/$defs/SendRoomMessage"
+        },
+        {
+          "$ref": "#/$defs/SendPrivateMessage"
+        },
+        {
+          "$ref": "#/$defs/Ping"
+        }
+      ]
+    },
+    "ServerMessage": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Ack"
+        },
+        {
+          "$ref": "#/$defs/Error"
+        },
+        {
+          "$ref": "#/$defs/RoomsSnapshot"
+        },
+        {
+          "$ref": "#/$defs/RoomSnapshot"
+        },
+        {
+          "$ref": "#/$defs/SelfSnapshot"
+        },
+        {
+          "$ref": "#/$defs/ConversationSnapshot"
+        },
+        {
+          "$ref": "#/$defs/Pong"
+        }
+      ]
+    },
+    "CSRFToken": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "csrfToken"
+      ],
+      "properties": {
+        "csrfToken": {
+          "type": "string",
+          "minLength": 32,
+          "maxLength": 256
+        }
+      }
+    }
+  }
+}

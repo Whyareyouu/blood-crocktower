@@ -6,13 +6,15 @@ import (
 	"fmt"
 	"time"
 
+	"blood/apps/api/internal/access"
+	"blood/apps/api/internal/auth"
 	"blood/apps/api/internal/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
 
-const CurrentVersion = 1
+const CurrentVersion = 2
 
 type SchemaMigration struct {
 	Version   uint `gorm:"primaryKey;autoIncrement:false"`
@@ -20,13 +22,23 @@ type SchemaMigration struct {
 }
 
 func Open(cfg config.Config) (*gorm.DB, error) {
-	return gorm.Open(postgres.Open(cfg.DatabaseURL()), &gorm.Config{
+	db, err := gorm.Open(postgres.Open(cfg.DatabaseURL()), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Silent),
 	})
+	if err != nil {
+		return nil, err
+	}
+	pool, err := db.DB()
+	if err != nil {
+		return nil, err
+	}
+	pool.SetMaxOpenConns(20)
+	pool.SetMaxIdleConns(5)
+	pool.SetConnMaxLifetime(30 * time.Minute)
+	return db, nil
 }
 
-// Migrate создаёт начальный журнал схемы. Доменные таблицы добавляются
-// отдельными версионированными миграциями при реализации соответствующих этапов.
+// Migrate применяет версии схемы одной транзакцией только через GORM.
 func Migrate(ctx context.Context, db *gorm.DB) error {
 	return db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		if tx.Migrator().HasTable(&SchemaMigration{}) {
@@ -41,9 +53,23 @@ func Migrate(ctx context.Context, db *gorm.DB) error {
 		if err := tx.AutoMigrate(&SchemaMigration{}); err != nil {
 			return err
 		}
-		return tx.Where(&SchemaMigration{Version: CurrentVersion}).FirstOrCreate(
-			&SchemaMigration{Version: CurrentVersion, AppliedAt: time.Now().UTC()},
-		).Error
+		for version := uint(1); version <= CurrentVersion; version++ {
+			var applied SchemaMigration
+			if err := tx.Where(&SchemaMigration{Version: version}).Take(&applied).Error; err == nil {
+				continue
+			} else if !errors.Is(err, gorm.ErrRecordNotFound) {
+				return err
+			}
+			if version == 2 {
+				if err := tx.AutoMigrate(&auth.User{}, &auth.Session{}, &access.Room{}, &access.Membership{}, &access.Conversation{}, &access.ConversationMember{}); err != nil {
+					return err
+				}
+			}
+			if err := tx.Create(&SchemaMigration{Version: version, AppliedAt: time.Now().UTC()}).Error; err != nil {
+				return err
+			}
+		}
+		return nil
 	})
 }
 

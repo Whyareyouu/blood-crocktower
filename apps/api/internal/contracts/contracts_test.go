@@ -47,7 +47,7 @@ func TestImplementedHTTPMatchesDTO(t *testing.T) {
 					t.Fatalf("неожиданный status %s", value.Status)
 				}
 			case *contracts.Status:
-				if value.Service != "blood-api" || value.Stage != "bootstrap" {
+				if value.Service != "blood-api" || value.Stage != "accounts" {
 					t.Fatalf("неожиданный статус API: %#v", value)
 				}
 			}
@@ -68,6 +68,11 @@ func TestWireFixturesRoundTrip(t *testing.T) {
 	}
 	if err := json.Unmarshal(data, &fixtures); err != nil {
 		t.Fatal(err)
+	}
+	for _, fixture := range fixtures {
+		if valid := contracts.Validate(fixture.Schema, fixture.Value) == nil; valid != fixture.Valid {
+			t.Fatalf("серверная валидация расходится со схемой: %s", fixture.Name)
+		}
 	}
 	clientTypes := map[string]func() any{
 		contracts.SubscribeRoomsType:        func() any { return &contracts.SubscribeRooms{} },

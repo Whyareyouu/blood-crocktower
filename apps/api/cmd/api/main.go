@@ -11,6 +11,8 @@ import (
 	"syscall"
 	"time"
 
+	"blood/apps/api/internal/access"
+	"blood/apps/api/internal/auth"
 	"blood/apps/api/internal/config"
 	"blood/apps/api/internal/database"
 	"blood/apps/api/internal/httpapi"
@@ -32,8 +34,14 @@ func run() error {
 	if err != nil {
 		return errors.New("не удалось подключиться к PostgreSQL; проверьте настройки DB_* и доступность БД")
 	}
+	authService, err := auth.New(db)
+	if err != nil {
+		return errors.New("не удалось инициализировать авторизацию")
+	}
+	handler := httpapi.New(database.Ready(db), httpapi.Options{Auth: authService, Access: access.New(db), PublicOrigin: cfg.PublicOrigin, CookieSecure: cfg.CookieSecure})
+	defer handler.Close()
 	server := &http.Server{
-		Addr: fmt.Sprintf(":%d", cfg.APIPort), Handler: httpapi.New(database.Ready(db)),
+		Addr: fmt.Sprintf(":%d", cfg.APIPort), Handler: handler,
 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second,
 		WriteTimeout: 15 * time.Second, IdleTimeout: 60 * time.Second,
 	}
