@@ -1,0 +1,64 @@
+openapi: 3.1.0
+info:
+  title: Кровь на часовой башне — API
+  version: 0.0.0
+  description: Реализованные диагностические endpoints каркаса. Игровое API добавляется по roadmap.
+servers:
+  - url: http://localhost:8080
+paths:
+  /health/live:
+    get:
+      operationId: getLiveness
+      summary: Проверить работоспособность процесса без обращения к БД
+      responses:
+        '200':
+          description: Процесс работает
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+  /health/ready:
+    get:
+      operationId: getReadiness
+      summary: Проверить PostgreSQL и применённую версию схемы через GORM
+      responses:
+        '200':
+          description: База данных и схема готовы
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+        '503':
+          description: База данных или миграции недоступны; внутренние сведения не выдаются
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+  /api/v1/status:
+    get:
+      operationId: getStatus
+      summary: Получить этап реализации сервиса
+      responses:
+        '200':
+          description: Информация о каркасе
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [service, stage]
+                properties:
+                  service:
+                    const: blood-api
+                  stage:
+                    const: bootstrap
+components:
+  schemas:
+    Health:
+      type: object
+      additionalProperties: false
+      required: [status]
+      properties:
+        status:
+          type: string
+          enum: [ok, not_ready]

@@ -1,0 +1,27 @@
+{
+  "name": "blood-on-the-clocktower",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.12.4",
+  "engines": { "node": ">=24 <25", "pnpm": ">=10 <11" },
+  "scripts": {
+    "setup": "node scripts/setup-git.mjs",
+    "dev:web": "node --env-file-if-exists=.env apps/web/node_modules/next/dist/bin/next dev apps/web",
+    "dev:api": "node scripts/go.mjs run ./cmd/api",
+    "db:migrate": "node scripts/go.mjs run ./cmd/migrate",
+    "build:web": "pnpm --filter @blood/web build",
+    "build:api": "node scripts/go.mjs build ./...",
+    "lint": "pnpm --filter @blood/web lint",
+    "typecheck": "pnpm --filter @blood/web typecheck",
+    "test:conventions": "node --test scripts/commitlint.test.mjs",
+    "test:api": "node scripts/go.mjs test ./...",
+    "vet:api": "node scripts/go.mjs vet ./...",
+    "check": "pnpm test:conventions && pnpm lint && pnpm typecheck && pnpm test:api && pnpm vet:api"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "21.2.4",
+    "@commitlint/config-conventional": "21.2.4",
+    "@commitlint/lint": "21.2.4",
+    "@commitlint/load": "21.2.4"
+  }
+}

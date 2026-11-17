@@ -1,0 +1,8 @@
+# <type>(<scope>): описание на русском языке
+# Типы: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+# Scope необязателен: web, api, db, auth, lobby, rules, infra, deps
+#
+# Тело: объяснение изменения и причины на русском языке.
+#
+# BREAKING CHANGE: описание несовместимого изменения на русском языке
+# Refs: #123
